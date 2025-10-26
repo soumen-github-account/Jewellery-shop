@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { addProduct, getProductById, getProducts } from "../controllers/AdminController.js";
-import { checkWishlist, editProduct, getWishlist, toggleWishlist } from "../controllers/productController.js";
+import { checkWishlist, deleteProductById, editProduct, getWishlist, toggleWishlist } from "../controllers/productController.js";
 import { getUserIdFromToken } from "../middlewares/authMiddleware.js";
 
 
@@ -18,5 +18,6 @@ router.get("/check/:productId", getUserIdFromToken, checkWishlist);
 
 router.get("/get-product/:id", getProductById);
 router.put("/edit-product/:id", upload.array("images", 5), editProduct);
+router.delete("/delete-product/:id", deleteProductById);
 
 export default router;

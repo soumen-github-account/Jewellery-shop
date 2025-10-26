@@ -36,7 +36,8 @@ export const AdminContextProvider = ({children}) =>{
         backendUrl,
         loading,
         jewelleryData,
-        totalJewelleryData
+        totalJewelleryData,
+        getJewelleryData
     }
     
     return(

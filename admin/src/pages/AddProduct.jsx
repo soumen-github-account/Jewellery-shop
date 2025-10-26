@@ -5,7 +5,7 @@ import { AdminContext } from "../contexts/AdminContext";
 import toast from "react-hot-toast";
 
 const AddProduct = () => {
-  const {backendUrl} = useContext(AdminContext)
+  const {backendUrl, getJewelleryData} = useContext(AdminContext)
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -22,6 +22,7 @@ const AddProduct = () => {
     color: [],
     tags: [],
   });
+  const [loading, setLoading] = useState(false)
 
   const [imageFiles, setImageFiles] = useState([]);
 
@@ -64,6 +65,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     try {
+      setLoading(true)
       const data = new FormData();
 
       Object.keys(form).forEach((key) => {
@@ -84,6 +86,8 @@ const AddProduct = () => {
       });
 
       toast.success("Product added successfully!");
+      getJewelleryData()
+      setLoading(false)
 
       // Reset form
       setForm({
@@ -268,7 +272,14 @@ const AddProduct = () => {
           ))}
         </div>
 
-        <button className="bg-[#7B542F] text-white px-5 py-2 rounded-md hover:bg-[#6b4523]">Add Product</button>
+        <button className={`bg-[#7B542F] text-white px-5 py-2 rounded-md hover:bg-[#6b4523] ${loading ? "cursor-no-drop bg-[#9c816a]" : ""}`}>
+          {
+            loading ? 
+            "Please wait..." :
+            "Add Product"
+          }
+          
+        </button>
       </form>
     </div>
   );

@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.open(`${backendUrl}/auth/google`, '_self');
+    window.open(`${backendUrl}/auth/google`, "_self");
   };
 
   return (

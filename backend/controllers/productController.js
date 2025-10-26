@@ -143,3 +143,23 @@ export const editProduct = async (req, res) => {
 };
 
 
+export const deleteProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await sql`
+      DELETE FROM products
+      WHERE id = ${id}
+      RETURNING *;
+    `;
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ success: false, message: "product not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Product deleted", data: result[0] });
+  } catch (err) {
+    console.error("Delete product error:", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

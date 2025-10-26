@@ -134,7 +134,7 @@ const ProfilePage = () => {
               {editableUser.picture ? (
                 <img
                   src={editableUser.picture}
-                  alt={editableUser.name}
+                  alt=''
                   className="w-full h-full object-cover"
                 />
               ) : (

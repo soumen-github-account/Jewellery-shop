@@ -5,10 +5,26 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AdminContext } from "../contexts/AdminContext";
+import toast from "react-hot-toast";
 
 const AllProducts = () => {
-  const {jewelleryData, loading, totalJewelleryData} = useContext(AdminContext)
+  const {jewelleryData, loading, totalJewelleryData, backendUrl, getJewelleryData} = useContext(AdminContext)
   const navigate = useNavigate();
+  const [delLoading, setDelLoading] = useState(false)
+
+  const deleteProduct = async(id) => {
+    setDelLoading(true)
+    try {
+      const {data} = await axios.delete(backendUrl + `/products/delete-product/${id}`, {withCredentials: true})
+      if(data.success){
+        toast.success(data.message)
+        getJewelleryData()
+        setDelLoading(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if(loading){
     return (
@@ -23,7 +39,6 @@ const AllProducts = () => {
         {jewelleryData.map((item) => (
           <div
             key={item.id}
-            onClick={() => navigate(`/edit-product/${item.id}`)}
             className="cursor-pointer bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-3"
           >
             <img
@@ -42,6 +57,14 @@ const AllProducts = () => {
               <span className="text-xs text-gray-400 line-through">
                 ₹{item.original_price}
               </span>
+            </div>
+            <div className="flex items-center justify-center w-full gap-2 mt-2">
+              <button onClick={()=>deleteProduct(item.id)} className="bg-red-50 w-full text-red-500 rounded-md py-1 hover:bg-red-100 transition-all">
+                Delete
+              </button>
+              <button onClick={() => navigate(`/edit-product/${item.id}`)} className="bg-blue-50 w-full text-blue-500 rounded-md py-1 hover:bg-blue-100 transition-all">
+              Edit
+            </button>
             </div>
           </div>
         ))}
