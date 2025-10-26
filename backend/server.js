@@ -21,9 +21,30 @@ app.use(express.json());
 app.use(cookieParser());
 
 // CORS setup (frontend <-> backend communication)
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   })
+// );
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://jewellery-shop-blush.vercel.app/",
+  "https://another-client.com"
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
