@@ -113,7 +113,7 @@ const AddProduct = () => {
   useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/admin/get"); // ✅ no destructuring
+      const res = await axios.get(backendUrl + "/admin/get"); 
       if (res.data.success) {
         console.log(res.data.data);
 
