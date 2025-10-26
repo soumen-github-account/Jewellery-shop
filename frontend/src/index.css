@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+.scroll-hide{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel Decorative', serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.color{
+  background-color: #B9B0A3;
+}
+.color2{
+  background-color: #D6D1C7;
+}
+
+@layer utilities{
+  .skeleton{
+    @apply bg-[#f8f1eb] relative overflow-hidden
+  }
+  .skeleton::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #FCFDF5, transparent);
+    animation: shimmer 1.3s infinite;
+  }
+  @keyframes shimmer {
+    100%{
+      transform: translateX(100%);
+    }
+  }
+}
