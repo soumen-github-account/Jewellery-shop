@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useContext } from "react";
+import { AdminContext } from "../contexts/AdminContext";
+import toast from "react-hot-toast";
 
 const AddOrder = () => {
+  const {backendUrl} = useContext(AdminContext)
   const [name, setName] = useState('');
   const [product, setProduct] = useState('');
   const [qty, setQty] = useState(1);
@@ -9,9 +13,9 @@ const AddOrder = () => {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     try {
-      const {data} = await axios.post("http://localhost:8000/admin/add-order", {name, product, quantity:qty}, {withCredentials:true})
+      const {data} = await axios.post(backendUrl + "/admin/add-order", {name, product, quantity:qty}, {withCredentials:true})
       if(data.success){
-        alert("order added");
+        toast.success("order added");
       }
     } catch (error) {
       console.log(error)
