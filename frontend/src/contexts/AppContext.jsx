@@ -108,7 +108,6 @@ export const AppContextProvider = ({ children }) => {
       console.error(error);
       toast.error("Something went wrong!");
     }
-    
   };
 
 
