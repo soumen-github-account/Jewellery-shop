@@ -11,6 +11,7 @@ const ProfilePage = () => {
   const { user, loadingUser, backendUrl, setUser } = useContext(AppContext);
   const [editableUser, setEditableUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   // Copy context user into local editable state
   useEffect(() => {
@@ -62,6 +63,7 @@ const ProfilePage = () => {
   };
 
   const handleSave = async () => {
+    setLoading(true)
     try {
       const res = await axios.put(
         `${backendUrl}/auth/update-user`,
@@ -71,6 +73,7 @@ const ProfilePage = () => {
       if (res.data.success) {
         toast.success("Profile updated successfully!");
         setEditMode(false);
+        setLoading(false)
       }
     } catch (err) {
       console.error(err);
@@ -239,10 +242,11 @@ const ProfilePage = () => {
             {editMode ? (
               <button
                 type="button"
+                disabled={loading}
                 onClick={handleSave}
                 className="w-full bg-[#7C573B] text-white py-2 rounded-lg hover:bg-[#a37b55] transition-colors"
               >
-                Save Changes
+                {loading ?  "Please Wait..." : "Save Changes"}
               </button>
             ) : (
               <button

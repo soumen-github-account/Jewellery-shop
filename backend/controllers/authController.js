@@ -20,11 +20,11 @@ export const signup = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    // ✅ Store token in HTTP-only cookie
+    // Store token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "false",
-      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "Production",   // false for localhost
+      sameSite: "None",    // Lax for localhost
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -56,8 +56,8 @@ export const login = async (req, res) => {
     // Store JWT as cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "false", // "Production"
-      sameSite: "Lax", // "None"
+      secure: process.env.NODE_ENV === "Production", // "Production"
+      sameSite: "None", // "None"
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -82,8 +82,8 @@ export const googleCallback = (req, res) => {
   const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "false",
-    sameSite: "Lax",
+    secure: process.env.NODE_ENV === "Production",
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
   });
 

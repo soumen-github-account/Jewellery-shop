@@ -97,7 +97,7 @@ const Navbar1 = () => {
             user?.picture ? 
             <img onClick={()=>navigate('/profile')} src={user.picture} className="w-9 rounded-full cursor-pointer" alt=""/>
             :
-            <MdOutlineAccountCircle />
+            <MdOutlineAccountCircle onClick={()=>navigate('/profile')} className="cursor-pointer" />
           }
         </div>
       </div>

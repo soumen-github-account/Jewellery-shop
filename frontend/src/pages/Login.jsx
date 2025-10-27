@@ -8,7 +8,8 @@ import toast from 'react-hot-toast';
 const Login = () => {
   const navigate = useNavigate();
   const { setUser, backendUrl } = useContext(AppContext);
-  const [state, setState] = useState('login'); // login or signup
+  const [state, setState] = useState('login');
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,6 +24,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true)
       const endpoint =
         state === 'login'
           ? `${backendUrl}/auth/login`
@@ -37,10 +39,10 @@ const Login = () => {
           state === 'login' ? 'Login successful!' : 'Signup successful!'
         );
 
-        // ✅ Save user in context only (cookie handles persistence)
+        // Save user in context only (cookie handles persistence)
         setUser(res.data.user);
         localStorage.setItem('user', JSON.stringify(res.data.user));
-
+        setLoading(false)
         navigate('/');
       }
     } catch (err) {
@@ -101,9 +103,14 @@ const Login = () => {
 
           <button
             type='submit'
-            className='w-full mb-3 bg-indigo-500 py-2.5 rounded-full text-white'
+            disabled={loading}
+            className={`w-full mb-3 bg-[#704F38] py-2.5 rounded-full text-white ${loading ? 'bg-[#856955] cursor-no-drop' : ''}`}
           >
-            {state === 'login' ? 'Log in' : 'Sign Up'}
+            {
+              loading ? 
+              "Please wait..." :
+              state === 'login' ? 'Log in' : 'Sign Up'
+            }
           </button>
         </form>
 

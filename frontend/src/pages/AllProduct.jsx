@@ -211,7 +211,7 @@ const AllProduct = () => {
 
       {/* 🔹 Mobile Filter Dropdown */}
       {showFilters && (
-        <div className="md:hidden fixed top-20 left-0 w-full bg-white shadow-lg p-4 z-50 overflow-y-auto max-h-[80vh]">
+        <div className="md:hidden fixed top-13 left-0 w-full bg-white shadow-lg p-4 z-50 overflow-y-auto max-h-[80vh]">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-lg font-semibold text-gray-800">Filters</h2>
             <button

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const AppContext = createContext();
 
@@ -13,7 +14,7 @@ export const AppContextProvider = ({ children }) => {
   const [jewelleryData, setJewelleryData] = useState([]);
   const [toggleLoading, setToggleLoading] = useState(false)
   const [wishlistLoading, setWishlistLoading] = useState(false);
-
+  const navigate = useNavigate()
   // Track window width
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -81,6 +82,8 @@ export const AppContextProvider = ({ children }) => {
     try {
       if (!user) {
         toast.error("Please login to add items to wishlist!");
+        navigate('/login')
+        setToggleLoading(false)
         return;
       }
 
