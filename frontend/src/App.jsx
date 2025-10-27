@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import hand from '../src/assets/hand.png'
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -15,6 +15,20 @@ import ShowAllCategoryDataPage from "./pages/ShowAllCategoryDataPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 
 const App = () => {
+  
+  useEffect(() => {
+    const preventLongPress = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', preventLongPress);
+    document.addEventListener('selectstart', preventLongPress);
+    document.addEventListener('copy', preventLongPress);
+
+    return () => {
+      document.removeEventListener('contextmenu', preventLongPress);
+      document.removeEventListener('selectstart', preventLongPress);
+      document.removeEventListener('copy', preventLongPress);
+    };
+  }, []);
+
   return (
     <div>
       <Toaster 
