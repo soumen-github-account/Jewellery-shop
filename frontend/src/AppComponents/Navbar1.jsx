@@ -112,7 +112,7 @@ const Navbar1 = () => {
           <IoSearchOutline className='text-[20px]' />
           <input type="text" className='outline-none h-8 mb-1 w-full cursor-pointer placeholder:text-[13px] placeholder:text-gray-500' placeholder='Search for products, brands...'/>
         </div>
-        <div className="bg-[#704F38] rounded-full p-2 text-[20px] text-white cursor-pointer shadow-md">
+        <div onClick={()=>navigate('/all-product')} className="bg-[#704F38] rounded-full p-2 text-[20px] text-white cursor-pointer shadow-md">
           <LuSettings2 />
         </div>
       </div>

@@ -11,6 +11,8 @@ import ProductView from "./pages/ProductView";
 import Login from "./pages/Login";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import {Toaster} from 'react-hot-toast'
+import ShowAllCategoryDataPage from "./pages/ShowAllCategoryDataPage";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const App = () => {
   return (
@@ -32,6 +34,9 @@ const App = () => {
         <Route path="/all-product" element={<AllProduct />} />
         <Route path="/product-view/:id" element={<ProductView />} />
         <Route path="/login" element={<Login />} />
+
+        <Route path="/show-all-category/:cat" element={<ShowAllCategoryDataPage />} />
+        <Route path="/search-products/:type" element={<SearchResultsPage />} />
       </Routes>
     </div>
   );

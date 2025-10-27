@@ -12,6 +12,7 @@ import Category from '../AppComponents/Category'
 import JewelleryDealsBanner from '../AppComponents/JewelleryDealsBanner'
 import TopTrendingDeals from '../AppComponents/TopTrendingDeals'
 import BottomNav from '../AppComponents/BottomNav'
+import AppDownload from '../components/AppDownload'
 
 const Home = () => {
   const {width} = useContext(AppContext)
@@ -26,6 +27,7 @@ const Home = () => {
         <About />
         <BannerProduct />
         <LovedProducts />
+        <AppDownload />
         <Footer />
         </div>
         :
@@ -37,6 +39,7 @@ const Home = () => {
           <TopTrendingDeals />
           <LovedProducts />
           <BannerProduct />
+          <AppDownload />
           <Footer />
           <BottomNav />
         </div>

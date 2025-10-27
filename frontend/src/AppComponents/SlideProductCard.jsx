@@ -12,6 +12,7 @@ const SlideProductCard = ({ item }) => {
     <div className="flex flex-col min-w-35 items-start border-1 border-gray-300 shadow-xs font-playfair pb-2">
     <div className="relative overflow-hidden bg-white">
         <img
+            onClick={()=>{navigate(`/product-view/${item.id}`); scrollTo(0,0)}}
             src={item.images[0]}
             alt={item.name}
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
@@ -25,7 +26,7 @@ const SlideProductCard = ({ item }) => {
           )
         }
         </div>
-    <div onClick={()=>navigate(`/product-view/${item.id}`)} className="px-5 mt-3 cursor-pointer">
+    <div onClick={()=>{navigate(`/product-view/${item.id}`); scrollTo(0,0)}} className="px-5 mt-3 cursor-pointer">
         <h1 className="line-clamp-2 font-bold text-[17px] max-sm:text-[15px] text-slate-800">{item.name}</h1>
         <p className="font-bold text-slate-500 text-sm max-sm:text-[13px]">{item.metal_type}</p>
         <p className="text-[20px] font-cinzel">₹ {item.discount_price}</p>

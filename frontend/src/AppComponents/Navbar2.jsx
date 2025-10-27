@@ -17,7 +17,7 @@ const Navbar2 = ({name}) => {
         <div className='rounded-full p-1 border-1 border-gray-300'>
             {
               user?.picture ?
-              <img onClick={()=>navigate('/profile')} src={user.picture} className='w-7 rounded-full cursor-pointer' alt="" />
+              <img onClick={()=>{navigate('/profile'); scrollTo(0,0)}} src={user.picture} className='w-7 rounded-full cursor-pointer' alt="" />
               :
               <User className='w-5.5 h-5.5' />
             }

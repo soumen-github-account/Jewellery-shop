@@ -21,9 +21,13 @@ const EditProduct = () => {
   const [subCategory2Options, setSubCategory2Options] = useState({});
 
   const offers = ["No Offer", "10%", "20%", "30%"];
-  const colorOptions = ["Gold", "Silver", "Rose Gold", "Platinum"];
-  const tagOptions = ["New", "Trending", "Under ₹5000", "Best Seller", "Limited Edition"];
-
+  const colorOptions = ["Gold", "Silver", "Rose Gold", "Platinum", "white & Gold", "Blue & silver"];
+  const tagOptions = ["New", "Minimal", "Trending", "Men", "Under ₹50000", "Under ₹35000", 
+    "Best Seller", "Limited Edition", "Luxury", "Premium",
+    "Celestique", "Aura Gold", "Viva Silver", "Pure Shine",
+    "Rosé Luxe", "Pearl Essence"
+  ];
+  
   // Fetch product details
   useEffect(() => {
     const fetchProduct = async () => {

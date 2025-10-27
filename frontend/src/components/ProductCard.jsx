@@ -12,6 +12,7 @@ const ProductCard = ({ item }) => {
     <div className="flex flex-col items-start border-1 border-gray-300 shadow-xs font-playfair pb-2">
     <div className="relative overflow-hidden bg-white">
         <img
+            onClick={()=>{navigate(`/product-view/${item.id}`); scrollTo(0,0)}}
             src={item.images[0]}
             alt={item.name}
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
@@ -38,6 +39,15 @@ const ProductCard = ({ item }) => {
             <GoHeart className="text-[23px] text-gray-500" />
           )}
         </button>
+
+        {/* Best Seller Tag */}
+
+          {item?.tags?.includes("Best Seller") && (
+            <div className="absolute top-0 sm:top-3 sm:left-[-20px] left-[-40px] bg-[#E25C77] text-white text-[9px] sm:text-[11px] font-semibold tracking-wider px-10 py-[3px] rounded-md rotate-[-18deg] shadow-md flex items-center gap-[4px]">
+              <span>BEST SELLER</span>
+              <span className="text-[12px]">✨</span>
+            </div>
+          )}
         </div>
     <div onClick={()=>{navigate(`/product-view/${item.id}`); scrollTo(0,0)}} className="px-5 mt-3 cursor-pointer">
         <h1 className="line-clamp-2 font-bold text-[17px] max-sm:text-[15px] text-slate-800">{item.name}</h1>

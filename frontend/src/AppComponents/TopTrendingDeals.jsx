@@ -1,4 +1,5 @@
 import React from "react";
+import {useNavigate} from 'react-router-dom'
 import t1 from "../assets/deals/t1.jpg";
 import t2 from "../assets/deals/t2.jpg";
 import t3 from "../assets/deals/t3.jpg";
@@ -9,29 +10,34 @@ const trendingDeals = [
     id: 1,
     title: "Rose Gold Rings",
     price: "From ₹5,499*",
+    cat: "Rings",
     img: t1,
   },
   {
     id: 2,
     title: "Diamond Earrings",
     price: "From ₹9,999*",
+    cat: "Earrings",
     img: t2,
   },
   {
     id: 3,
-    title: "Pearl Necklace",
+    title: "Pearl Necklaces",
     price: "From ₹14,499*",
+    cat: "Necklaces",
     img: t3,
   },
   {
     id: 4,
     title: "Gold Bracelets",
     price: "From ₹8,299*",
+    cat: "Bracelets",
     img: t4,
   },
 ];
 
 const TopTrendingDeals = () => {
+  const navigate = useNavigate()
   return (
     <div className="px-2 mt-4">
     <div className="bg-[#FDF4EA] rounded-xl p-3 max-w-6xl mx-auto shadow-sm">
@@ -50,6 +56,7 @@ const TopTrendingDeals = () => {
         {trendingDeals.map((item) => (
           <div
             key={item.id}
+            onClick={()=>navigate(`/show-all-category/${item.cat}`)}
             className="bg-[#FAEBDD] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
           >
             <img

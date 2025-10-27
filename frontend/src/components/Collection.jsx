@@ -24,14 +24,14 @@ const Collection = () => {
         isLoading ? 
         Array.from({ length: 6 }).map((_, i) => <CardSkeleon key={i} />)
         :
-        jewelleryData.slice(0, 1).map((item) => (
+        jewelleryData.slice(0, 8).map((item) => (
           <ProductCard key={item.id} item={item} />
         ))
         }
       </div>
-      {/* <div className="flex items-start justify-between w-full gap-8 mt-8 max-sm:mt-2">
+      <div className="flex items-start justify-between w-full gap-8 mt-8 max-sm:mt-2">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 max-sm:gap-2">
-            {jewelleryData.slice(0, 9).map((item) => (
+            {jewelleryData.slice(8, 14).map((item) => (
               <ProductCard key={item.id} item={item} />
             ))}
           </div>
@@ -40,12 +40,12 @@ const Collection = () => {
             alt="Classic Collection"
             className="rounded-md max-sm:hidden shadow-sm object-cover w-[30.5vw]"
           />
-        </div> */}
+        </div>
         
         <JewelleryBrandsSection />
         <p className="sm:hidden font-bold text-2xl mt-4">Suggested for you</p>
-      {/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mt-8 max-sm:gap-2 max-sm:mt-4">
-        {jewelleryData.slice(0, 6).map((item) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mt-8 max-sm:gap-2 max-sm:mt-4">
+        {jewelleryData.slice(14, 19).map((item) => (
           <ProductCard key={item.id} item={item} />
         ))}
       </div>
@@ -56,7 +56,7 @@ const Collection = () => {
             className="rounded-md max-sm:hidden shadow-sm object-cover w-[30.5vw]"
           />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 max-sm:gap-2">
-            {jewelleryData.slice(0, 9).map((item) => (
+            {jewelleryData.slice(5, 15).map((item) => (
               <ProductCard key={item.id} item={item} />
             ))}
           </div>
@@ -64,7 +64,7 @@ const Collection = () => {
         
         <div className="w-full flex items-center justify-center mt-8 font-playfair text-md text-slate-700">
           <button onClick={()=>navigate('/all-product')} className="rounded-md py-2 px-30 bg-gray-50 border-1 border-gray-300">Show All</button>
-        </div> */}
+        </div>
     </div>
   );
 };

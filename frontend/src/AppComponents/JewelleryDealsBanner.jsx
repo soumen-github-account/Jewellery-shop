@@ -2,29 +2,35 @@ import React from "react";
 import j1 from "../assets/deals/j1.jpg";
 import j2 from "../assets/deals/j2.jpg";
 import j3 from "../assets/deals/j3.jpg";
+import { useNavigate } from 'react-router-dom'
+
 
 const deals = [
   {
     id: 1,
-    title: "Diamond Necklace",
+    title: "Diamond Necklaces",
     price: "From ₹49,999*",
+    cat: "Necklaces",
     img: j1,
   },
   {
     id: 2,
     title: "Gold Bangles",
     price: "From ₹12,499*",
+    cat: "Bangles",
     img: j2,
   },
   {
     id: 3,
     title: "Silver Earrings",
     price: "From ₹1,999*",
+    cat: "Earrings",
     img: j3,
   },
 ];
 
 const JewelleryDealsBanner = () => {
+  const navigate = useNavigate();
   return (
     <div className="px-2 mt-4">
     <div className="bg-[#FDEEE2] rounded-xl p-3 max-w-6xl mx-auto shadow-sm">
@@ -43,6 +49,7 @@ const JewelleryDealsBanner = () => {
         {deals.map((item) => (
           <div
             key={item.id}
+            onClick={()=>navigate(`/show-all-category/${item.cat}`)}
             className="bg-[#F7E4D7] rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
           >
             <img
