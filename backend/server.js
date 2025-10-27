@@ -57,7 +57,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "Production", // production only true in prod (HTTPS)
+      secure: process.env.NODE_ENV === "production", // production only true in prod (HTTPS)
       sameSite: "None", // required when frontend on different domain
       httpOnly: true,
     },
