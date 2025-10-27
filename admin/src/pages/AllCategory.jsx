@@ -33,7 +33,7 @@ const CategoryDashboard = () => {
       );
       if (data.success) {
         toast.success(data.message);
-        fetchCategories(); // Refresh the list after deletion
+        fetchCategories(); 
       }
     } catch (error) {
       console.error("Delete error:", error);

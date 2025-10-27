@@ -60,11 +60,11 @@ const Collection = () => {
               <ProductCard key={item.id} item={item} />
             ))}
           </div>
-        </div>
+      </div>
         
-        <div className="w-full flex items-center justify-center mt-8 font-playfair text-md text-slate-700">
-          <button onClick={()=>navigate('/all-product')} className="rounded-md py-2 px-30 bg-gray-50 border-1 border-gray-300">Show All</button>
-        </div>
+      <div className="w-full flex items-center justify-center mt-8 font-playfair text-md text-slate-700">
+        <button onClick={()=>navigate('/all-product')} className="rounded-md py-2 px-30 bg-gray-50 border-1 border-gray-300">Show All</button>
+      </div>
     </div>
   );
 };

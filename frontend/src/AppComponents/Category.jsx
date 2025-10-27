@@ -41,7 +41,7 @@ const Category = () => {
       {/* Category List */}
       <div className="scroll-hide mt-2 flex items-center justify-start w-full overflow-x-scroll gap-3">
         {loading
-          ? // 🔸 Skeleton loading while fetching
+          ? // Skeleton loading while fetching
             Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
@@ -51,13 +51,11 @@ const Category = () => {
                 <div className="w-12 h-3 mt-2 rounded bg-gray-200 animate-pulse"></div>
               </div>
             ))
-          : // 🔹 Actual category items
+          : // Actual category items
             categoryData.map((cat, index) => (
               <div
                 key={index}
-                onClick={() =>
-                  navigate(`/show-all-category/${cat.categories?.[0]?.name}`)
-                }
+                onClick={() =>navigate(`/show-all-category/${cat.categories?.[0]?.name}`)}
                 className="flex flex-col items-center cursor-pointer hover:bg-slate-100 transition-all duration-150 py-3 rounded-md px-2 min-w-[80px]"
               >
                 <img

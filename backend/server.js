@@ -29,8 +29,9 @@ app.use(cookieParser());
 // );
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "https://jewellery-shop-blush.vercel.app",
-  "https://another-client.com"
+  "https://jewellery-shop-frontend-henna.vercel.app"
 ];
 
 app.use(
