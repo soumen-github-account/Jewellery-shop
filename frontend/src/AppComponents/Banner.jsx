@@ -12,7 +12,7 @@ import b5 from '../assets/mb5.png'
 const banners = [
   { 
     id: 1, 
-    title: "New Collection", 
+    title: "New Collection",
     desc: "Discount 50% for the first transection", 
     btnText: "Shop now", 
     bgColor: "bg-[#EDE6DA]", 

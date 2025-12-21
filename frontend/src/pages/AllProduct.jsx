@@ -17,7 +17,7 @@ const AllProduct = () => {
     offer: "All",
   });
 
-  const [showFilters, setShowFilters] = useState(false); // 👈 for mobile toggle
+  const [showFilters, setShowFilters] = useState(false); // for mobile toggle
 
   const colorOptions = [
     "Gold",
@@ -209,7 +209,7 @@ const AllProduct = () => {
         </button>
       </div>
 
-      {/* 🔹 Mobile Filter Dropdown */}
+      {/* Mobile Filter Dropdown */}
       {showFilters && (
         <div className="md:hidden fixed top-13 left-0 w-full bg-white shadow-lg p-4 z-50 overflow-y-auto max-h-[80vh]">
           <div className="flex justify-between items-center mb-3">

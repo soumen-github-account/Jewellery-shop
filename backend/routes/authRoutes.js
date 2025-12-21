@@ -20,7 +20,7 @@ const router = express.Router();
 // ================= Google OAuth =================
 
 // Step 1: Start Google OAuth
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"], session: false, }));
 
 // Step 2: Google callback URL
 router.get(
