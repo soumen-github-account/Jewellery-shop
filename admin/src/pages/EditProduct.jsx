@@ -11,10 +11,9 @@ const EditProduct = () => {
 
   const [form, setForm] = useState(null);
 
-  // Image states
-  const [existingImages, setExistingImages] = useState([]); // already uploaded URLs
-  const [imageFiles, setImageFiles] = useState([]); // new files to upload
-  const [previewImages, setPreviewImages] = useState([]); // preview for UI
+  const [existingImages, setExistingImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]); 
+  const [previewImages, setPreviewImages] = useState([]); 
 
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState({});
@@ -28,7 +27,6 @@ const EditProduct = () => {
     "Rosé Luxe", "Pearl Essence"
   ];
   
-  // Fetch product details
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -62,7 +60,6 @@ const EditProduct = () => {
     fetchProduct();
   }, [id]);
 
-  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -97,12 +94,10 @@ const EditProduct = () => {
 
   if (!form) return <p className="text-center mt-10">Loading...</p>;
 
-  // Input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     let updated = { ...form, [name]: value };
 
-    // Auto-calculate discount price
     if ((name === "originalPrice" || name === "offer") && updated.originalPrice) {
       let discount = parseFloat(updated.originalPrice);
       if (updated.offer && updated.offer !== "No Offer") {
@@ -115,7 +110,6 @@ const EditProduct = () => {
     setForm(updated);
   };
 
-  // Image change
   const handleFileChange = (e, index) => {
     const file = e.target.files[0];
     const files = [...imageFiles];
@@ -127,7 +121,6 @@ const EditProduct = () => {
     setPreviewImages(previews);
   };
 
-  // Delete image
   const handleDeleteImage = (index) => {
     const existing = [...existingImages];
     if (existing[index]) existing.splice(index, 1);
@@ -142,7 +135,6 @@ const EditProduct = () => {
     setImageFiles(files);
   };
 
-  // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -182,7 +174,6 @@ const EditProduct = () => {
         className="bg-white p-5 rounded-lg shadow-md border border-gray-200 space-y-4"
         onSubmit={handleSubmit}
       >
-        {/* Images */}
         <div className="grid grid-cols-5 gap-2">
           {previewImages.map((img, i) => (
             <div key={i} className="relative">
@@ -202,7 +193,6 @@ const EditProduct = () => {
               />
             </div>
           ))}
-          {/* Add new image slots if less than 5 */}
           {previewImages.length < 5 &&
             Array.from({ length: 5 - previewImages.length }).map((_, i) => (
               <input
@@ -215,7 +205,6 @@ const EditProduct = () => {
             ))}
         </div>
 
-        {/* Other fields */}
         <input type="text" name="name" placeholder="Product Name" value={form.name} onChange={handleChange} className="border p-2 w-full rounded-md" />
         <textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} className="border p-2 w-full rounded-md" />
         <input type="number" name="originalPrice" placeholder="Original Price" value={form.originalPrice} onChange={handleChange} className="border p-2 w-full rounded-md" />
@@ -225,7 +214,6 @@ const EditProduct = () => {
         <input type="number" name="discountPrice" value={form.discountPrice} readOnly className="border p-2 w-full rounded-md bg-gray-100" />
         <input type="text" name="metalType" placeholder="Metal Type" value={form.metalType} onChange={handleChange} className="border p-2 w-full rounded-md" />
 
-        {/* Categories */}
         <select name="category" value={form.category} onChange={(e) => {
           const selected = e.target.value;
           const categoryObj = categories.find((c) => c.name === selected);
@@ -245,7 +233,6 @@ const EditProduct = () => {
 
         <input type="number" name="rating" placeholder="Rating" min="0" max="5" step="0.1" value={form.rating} onChange={handleChange} className="border p-2 w-full rounded-md" />
 
-        {/* Colors */}
         <div className="border p-2 rounded-md flex flex-wrap gap-3">
           {colorOptions.map((color) => (
             <label key={color} className="flex items-center gap-1">
@@ -262,7 +249,6 @@ const EditProduct = () => {
           ))}
         </div>
 
-        {/* Tags */}
         <div className="border p-2 rounded-md flex flex-wrap gap-3">
           {tagOptions.map((tag) => (
             <label key={tag} className="flex items-center gap-1">

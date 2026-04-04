@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaFire } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-// import { jewelleryData } from "../assets/data";
 import BottomNav from "../AppComponents/BottomNav";
 import { AppContext } from "../contexts/AppContext";
 
@@ -88,7 +87,6 @@ const SearchPage = () => {
 
   return (
     <div className="min-h-screen bg-[#FCFDF5] pb-16">
-      {/* Search Bar */}
       <div className="sticky top-0 left-0 w-full bg-white shadow-md z-50 px-4 py-3">
         <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 shadow-sm max-w-xl mx-auto">
           <IoSearch className="text-[22px] text-gray-500" />
@@ -103,7 +101,6 @@ const SearchPage = () => {
           />
         </div>
 
-        {/* Suggestions Dropdown */}
         {showSuggestions && (
           <div className="absolute h-[50vh] overflow-y-scroll top-[70px] left-1/2 transform -translate-x-1/2 w-full max-w-xl bg-white border border-gray-200 shadow-xl rounded-md overflow-hidden z-50">
             {suggestions.length > 0 ? (
@@ -151,7 +148,6 @@ const SearchPage = () => {
         )}
       </div>
 
-      {/* Popular and Recent Searches */}
       <div className="p-4">
         {recentSearches.length > 0 && (
           <div className="mb-4">

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-  googleId: { type: String, unique: true, sparse: true }, // <-- sparse true
+  googleId: { type: String, unique: true, sparse: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String }, // for email/password login
+  password: { type: String },
   picture: {type: String, default:""},
   phone: {type: String, default:""},
   addresses: [

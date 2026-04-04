@@ -13,7 +13,6 @@ const ProfilePage = () => {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false)
 
-  // Copy context user into local editable state
   useEffect(() => {
     if (user) {
       setEditableUser({
@@ -191,7 +190,6 @@ const ProfilePage = () => {
               />
             </div>
 
-            {/* Addresses Section */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-gray-600 font-semibold">

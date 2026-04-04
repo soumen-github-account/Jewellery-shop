@@ -113,7 +113,6 @@ const AppDownload = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // Optional: detect display-mode changes dynamically
     const mediaQuery = window.matchMedia('(display-mode: standalone)');
     const handleChange = (e) => setIsInstalled(e.matches);
     mediaQuery.addEventListener('change', handleChange);
@@ -130,9 +129,9 @@ const AppDownload = () => {
       installPrompt.prompt();
       installPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('✅ User accepted the install prompt');
+          console.log('User accepted the install prompt');
         } else {
-          console.log('❌ User dismissed the install prompt');
+          console.log('User dismissed the install prompt');
         }
         setInstallPrompt(null);
         setShowInstallButton(false);

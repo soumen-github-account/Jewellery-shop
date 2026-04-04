@@ -7,7 +7,6 @@ import {useNavigate} from 'react-router-dom'
 
 const Header = () => {
     const navigate = useNavigate()
-    // bg-linear-to-br from-[#B5AEA1] via-[#D6D1C5] to-[#D6D1C5]
   return (
     <div className='min-h-screen relative bg-[#B5AEA1] pt-6'>
         <div className='relative'>

@@ -9,7 +9,6 @@ const Category = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch all categories
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -38,10 +37,9 @@ const Category = () => {
         </span>
       </div>
 
-      {/* Category List */}
       <div className="scroll-hide mt-2 flex items-center justify-start w-full overflow-x-scroll gap-3">
         {loading
-          ? // Skeleton loading while fetching
+          ? 
             Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
@@ -51,7 +49,7 @@ const Category = () => {
                 <div className="w-12 h-3 mt-2 rounded bg-gray-200 animate-pulse"></div>
               </div>
             ))
-          : // Actual category items
+          : 
             categoryData.map((cat, index) => (
               <div
                 key={index}

@@ -5,11 +5,10 @@ import toast from "react-hot-toast";
 import { AdminContext } from "../contexts/AdminContext";
 
 const CategoryDashboard = () => {
-    const {backendUrl} = useContext(AdminContext)
+  const {backendUrl} = useContext(AdminContext)
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
 
-  // Fetch all categories
   const fetchCategories = async () => {
     try {
       const res = await axios.get(backendUrl + "/admin/get");
@@ -23,7 +22,6 @@ const CategoryDashboard = () => {
     fetchCategories();
   }, []);
 
-  // Delete category by ID
   const deleteCategory = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?")) return;
 

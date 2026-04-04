@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useMemo } from "react";
 import Navbar2 from "../AppComponents/Navbar2";
 import ProductCard from "../components/ProductCard";
@@ -17,7 +16,7 @@ const AllProduct = () => {
     offer: "All",
   });
 
-  const [showFilters, setShowFilters] = useState(false); // for mobile toggle
+  const [showFilters, setShowFilters] = useState(false);
 
   const colorOptions = [
     "Gold",
@@ -82,11 +81,7 @@ const AllProduct = () => {
       (item.offer && item.offer.toLowerCase() === filters.offer.toLowerCase());
 
     return (
-      categoryMatch &&
-      subCategoryMatch &&
-      colorMatch &&
-      tagMatch &&
-      offerMatch
+      categoryMatch && subCategoryMatch && colorMatch && tagMatch && offerMatch
     );
   });
 
@@ -198,7 +193,6 @@ const AllProduct = () => {
     <div className="h-screen flex flex-col bg-gray-50">
       <Navbar2 name={"All Jewellery"} />
 
-      {/* 🔹 Mobile Filter Toggle */}
       <div className="md:hidden flex justify-between items-center px-4 pt-16">
         <button
           onClick={() => setShowFilters(!showFilters)}
@@ -209,7 +203,6 @@ const AllProduct = () => {
         </button>
       </div>
 
-      {/* Mobile Filter Dropdown */}
       {showFilters && (
         <div className="md:hidden fixed top-13 left-0 w-full bg-white shadow-lg p-4 z-50 overflow-y-auto max-h-[80vh]">
           <div className="flex justify-between items-center mb-3">
@@ -225,14 +218,11 @@ const AllProduct = () => {
         </div>
       )}
 
-      {/* ================= Desktop Layout ================= */}
       <div className="flex flex-1 pt-16 max-sm:pt-3 pb-8 overflow-hidden">
-        {/* Left Filter Panel */}
         <aside className="hidden md:flex md:w-72 flex-col bg-white shadow-sm border-r overflow-y-auto h-full sticky top-[85px]">
           <FilterContent />
         </aside>
 
-        {/* Right Product Grid */}
         <main className="flex-1 overflow-y-auto px-4 scroll-hide">
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">

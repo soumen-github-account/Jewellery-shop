@@ -34,7 +34,6 @@ export const addProduct = async (req, res) => {
       tags,
     } = req.body;
 
-    // Upload all images to Cloudinary sequentially
     const files = req.files || [];
     const images = [];
 
@@ -69,7 +68,6 @@ export const addProduct = async (req, res) => {
 
     const result = await sql.query(query, values);
 
-    // Only one response is sent
     return res.json({ success: true, product: result[0] });
   } catch (err) {
     console.error("Controller error:", err);
@@ -114,13 +112,10 @@ export const getProductById = async (req, res) => {
 };
 
 
-// ------ category setup -------------
-
 export const saveCategoryData = async (req, res) => {
   try {
     const { categories, subCategories, subCategory2Options } = req.body;
 
-    // Parse safely in case frontend sent JSON strings
     const categoriesArr =
       typeof categories === "string" ? JSON.parse(categories) : (categories || []);
     const subCategoriesObj =
@@ -130,7 +125,6 @@ export const saveCategoryData = async (req, res) => {
         ? JSON.parse(subCategory2Options)
         : (subCategory2Options || {});
 
-    // Upload main image
     let mainImageUrl = null;
     if (req.file) {
       const imageUpload = await cloudinary.uploader.upload(req.file.path, {
@@ -139,12 +133,10 @@ export const saveCategoryData = async (req, res) => {
       mainImageUrl = imageUpload.secure_url;
     }
 
-    // Convert to JSON for storage
     const categoriesJson = JSON.stringify(categoriesArr);
     const subCategoriesJson = JSON.stringify(subCategoriesObj);
     const subCategory2Json = JSON.stringify(subCategory2Obj);
 
-    // Insert into Neon (PostgreSQL)
     const result = await sql`
       INSERT INTO category_data (categories, subcategories, subcategory2options, image_url)
       VALUES (${categoriesJson}::jsonb, ${subCategoriesJson}::jsonb, ${subCategory2Json}::jsonb, ${mainImageUrl})
@@ -198,7 +190,6 @@ export const updateCategoryById = async (req, res) => {
     const { id } = req.params;
     const { categories, subCategories, subCategory2Options } = req.body;
 
-    // Parse safely in case frontend sent JSON strings
     const categoriesArr =
       typeof categories === "string" ? JSON.parse(categories) : (categories || []);
     const subCategoriesObj =
@@ -208,7 +199,6 @@ export const updateCategoryById = async (req, res) => {
         ? JSON.parse(subCategory2Options)
         : (subCategory2Options || {});
 
-    // Upload new image if provided
     let imageUrl = null;
     if (req.file) {
       const uploadResult = await cloudinary.uploader.upload(req.file.path, {
@@ -217,12 +207,10 @@ export const updateCategoryById = async (req, res) => {
       imageUrl = uploadResult.secure_url;
     }
 
-    // Convert to JSON string for PostgreSQL
     const categoriesJson = JSON.stringify(categoriesArr);
     const subCategoriesJson = JSON.stringify(subCategoriesObj);
     const subCategory2Json = JSON.stringify(subCategory2Obj);
 
-    // Update DB
     const result = await sql`
       UPDATE category_data
       SET categories = ${categoriesJson}::jsonb,

@@ -15,24 +15,21 @@ export const AppContextProvider = ({ children }) => {
   const [toggleLoading, setToggleLoading] = useState(false)
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const navigate = useNavigate()
-  // Track window width
+
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Check localStorage (manual login) OR backend session (Google login)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
 
     if (storedUser && storedToken) {
-      // If manual login exists, use it directly
       setUser(JSON.parse(storedUser));
       setLoadingUser(false);
     } else {
-      // Otherwise check Google session from backend
       axios
         .get(`${backendUrl}/auth/user`, { withCredentials: true })
         .then((res) => {
@@ -43,39 +40,6 @@ export const AppContextProvider = ({ children }) => {
         .finally(() => setLoadingUser(false));
     }
   }, [backendUrl]);
-
-  // Wishlist toggle
-  // const toggleWishlist = async(item) => {
-  //   try {
-  //     const productId = item.id
-  //   if (!user) {
-  //     toast.error("Please login to add items to wishlist!");
-  //     return;
-  //   }
-
-  //   // setWishlist((prev) => {
-  //   //   const exists = prev.some((item) => item.id === product.id);
-  //   //   return exists
-  //   //     ? prev.filter((item) => item.id !== product.id)
-  //   //     : [...prev, product];
-  //   // });
-
-  //   const {data} = await axios.post(
-  //     `${backendUrl}/products/toggle`,
-  //     { productId },
-  //     { withCredentials: true }
-  //   );
-
-  //   if(data.success) {
-  //     toast.success(data.message)
-  //   } else{
-  //     console.log(data.message)
-  //   }
- 
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // };
 
   const toggleWishlist = async (item) => {
     setToggleLoading(true);
@@ -94,7 +58,6 @@ export const AppContextProvider = ({ children }) => {
       );
 
       if (data.success) {
-        // Update local wishlist based on backend response
         setWishlist((prevWishlist) => {
           if (data.action === "added") return [...prevWishlist, item];
           else return prevWishlist.filter((i) => i.id !== item.id);

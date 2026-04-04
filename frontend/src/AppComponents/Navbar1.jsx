@@ -1,36 +1,4 @@
-// import React from 'react'
-// import logo from '../assets/logo.jpg'
-// import { MdOutlineAccountCircle } from "react-icons/md";
-// import { IoSearchOutline } from "react-icons/io5";
-// import { LuSettings2 } from "react-icons/lu";
 
-// const Navbar1 = () => {
-//   return (
-//     <div className='py-2 border-b-1 border-b-gray-200 shadow-xs'>
-//         <div className='flex px-5 items-center justify-between'>
-//             <div className='flex items-center gap-4'>
-//                 <img src={logo} className='w-10 rounded-lg' alt="" />
-//                 <p>CELESTIQUE</p>
-//             </div>
-//             <div className='text-[23px] text-slate-600'>
-//                 <MdOutlineAccountCircle />
-//             </div>
-//         </div>
-
-//         <div className='flex items-center justify-between gap-4 px-4 mt-3'>
-            // <div className='flex w-full px-3 items-center gap-2 rounded-full border-1 border-gray-300 shadow-xs'>
-            //     <IoSearchOutline className='text-[20px]' />
-            //     <input type="text" className='outline-none h-8 mb-1 w-full cursor-pointer placeholder:text-[13px] placeholder:text-gray-500' placeholder='Search here'/>
-            // </div>
-//             <div className='bg-[#704F38] rounded-full p-2 text-[20px] text-white cursor-pointer shadow-md'>
-//                 <LuSettings2 />
-//             </div>
-//         </div>
-//     </div>
-//   )
-// }
-
-// export default Navbar1
 import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.jpg";
 import { MdOutlineAccountCircle } from "react-icons/md";
@@ -52,7 +20,6 @@ const Navbar1 = () => {
     const updateScroll = () => {
       const currentY = window.scrollY;
 
-      // Only update if state actually changes
       if (currentY > lastScrollY && showLogo) {
         setShowLogo(false);
       } else if (currentY < lastScrollY && !showLogo) {
@@ -78,7 +45,6 @@ const Navbar1 = () => {
     <div
       className={`w-full border-b border-b-gray-200 shadow-sm bg-white transition-all duration-300 sticky top-0 z-50`}
     >
-      {/* Logo + Account */}
       <div
         className={`flex px-5 mt-1 items-center justify-between py-1 transition-all duration-300 ${
           showLogo
@@ -102,7 +68,6 @@ const Navbar1 = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
       <div
         className={`flex items-center justify-between gap-4 px-4 pb-2 transition-all duration-300 ${
           showLogo ? "mt-1" : "mt-2"

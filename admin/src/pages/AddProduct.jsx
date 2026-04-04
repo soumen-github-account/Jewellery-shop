@@ -26,7 +26,6 @@ const AddProduct = () => {
 
   const [imageFiles, setImageFiles] = useState([]);
 
-  // State for dynamic categories
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState({});
   const [subCategory2Options, setSubCategory2Options] = useState({});
@@ -39,12 +38,10 @@ const AddProduct = () => {
     "Rosé Luxe", "Pearl Essence"
   ];
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     let updatedForm = { ...form, [name]: value };
 
-    // Auto-calculate discount price
     if ((name === "originalPrice" || name === "offer") && updatedForm.originalPrice) {
       let discount = parseFloat(updatedForm.originalPrice);
       if (updatedForm.offer && updatedForm.offer !== "No Offer") {
@@ -57,14 +54,12 @@ const AddProduct = () => {
     setForm(updatedForm);
   };
 
-  // Handle image selection
   const handleFileChange = (e, index) => {
     const files = [...imageFiles];
     files[index] = e.target.files[0];
     setImageFiles(files);
   };
 
-  // Submit product to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -93,7 +88,6 @@ const AddProduct = () => {
       getJewelleryData()
       setLoading(false)
 
-      // Reset form
       setForm({
         name: "",
         description: "",
@@ -117,7 +111,6 @@ const AddProduct = () => {
     }
   };
 
-  // Fetch categories from backend
   useEffect(() => {
   const fetchCategories = async () => {
     try {
@@ -125,13 +118,10 @@ const AddProduct = () => {
       if (res.data.success) {
         console.log(res.data.data);
 
-        // If your API returns multiple rows (as we fixed earlier):
         const allData = res.data.data || [];
 
-        // Merge all categories
         const mergedCategories = allData.flatMap((item) => item.categories || []);
 
-        // Merge subcategories
         const mergedSubCategories = allData.reduce((acc, item) => {
           Object.entries(item.subcategories || {}).forEach(([key, value]) => {
             if (!acc[key]) acc[key] = [];
@@ -140,7 +130,6 @@ const AddProduct = () => {
           return acc;
         }, {});
 
-        // Merge subcategory2options
         const mergedSubCategory2Options = allData.reduce((acc, item) => {
           Object.entries(item.subcategory2options || {}).forEach(([key, value]) => {
             if (!acc[key]) acc[key] = [];
@@ -167,21 +156,18 @@ const AddProduct = () => {
     <div className="p-6 overflow-scroll h-[90vh]">
       <h1 className="text-xl font-semibold text-[#7B542F] mb-4">Add Product</h1>
       <form className="bg-white p-5 rounded-lg shadow-md border border-gray-200 space-y-4" onSubmit={handleSubmit}>
-        {/* Product Details */}
+
         <input type="text" name="name" placeholder="Product Name" value={form.name} onChange={handleChange} className="border p-2 w-full rounded-md" />
         <textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} className="border p-2 w-full rounded-md" />
 
-        {/* Prices & Offer */}
         <input type="number" name="originalPrice" placeholder="Original Price" value={form.originalPrice} onChange={handleChange} className="border p-2 w-full rounded-md" />
         <select name="offer" value={form.offer} onChange={handleChange} className="border p-2 w-full rounded-md">
           {offers.map((offer) => <option key={offer} value={offer}>{offer}</option>)}
         </select>
         <input type="number" name="discountPrice" placeholder="Discount Price" value={form.discountPrice} readOnly className="border p-2 w-full rounded-md bg-gray-100" />
 
-        {/* Metal & Color */}
         <input type="text" name="metalType" placeholder="Metal Type" value={form.metalType} onChange={handleChange} className="border p-2 w-full rounded-md" />
 
-        {/* Category Dropdowns */}
         <select
           name="category"
           value={form.category}
@@ -224,10 +210,8 @@ const AddProduct = () => {
           {form.sub_category && subCategory2Options[form.sub_category]?.map((sub) => <option key={sub} value={sub}>{sub}</option>)}
         </select>
 
-        {/* Rating & Tags */}
         <input type="number" name="rating" placeholder="Rating" value={form.rating} onChange={handleChange} className="border p-2 w-full rounded-md" min="0" max="5" step="0.1" />
 
-        {/* Color Multi-select */}
         <div className="border p-2 rounded-md flex flex-wrap gap-2">
           {colorOptions.map((color) => (
             <label key={color} className="flex items-center gap-1">
@@ -248,7 +232,6 @@ const AddProduct = () => {
           ))}
         </div>
 
-        {/* Tags Multi-select */}
         <div className="border p-2 rounded-md flex flex-wrap gap-2">
           {tagOptions.map((tag) => (
             <label key={tag} className="flex items-center gap-1">
@@ -269,7 +252,6 @@ const AddProduct = () => {
           ))}
         </div>
 
-        {/* Image Uploads */}
         <div className="grid grid-cols-5 gap-2">
           {[0, 1, 2, 3, 4].map((i) => (
             <input key={i} type="file" accept="image/*" onChange={(e) => handleFileChange(e, i)} className="border p-2 w-full rounded-md" />

@@ -7,7 +7,7 @@ import { AdminContext } from "../contexts/AdminContext";
 import toast from "react-hot-toast";
 
 const EditCategory = () => {
-    const {backendUrl} = useContext(AdminContext)
+  const {backendUrl} = useContext(AdminContext)
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -17,12 +17,11 @@ const EditCategory = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch existing category data
   useEffect(() => {
     const fetchCategory = async () => {
       try {
         const res = await axios.get(backendUrl + `/admin/get/${id}`);
-        const cat = res.data.data; // adjust if backend sends differently
+        const cat = res.data.data; 
 
         setCategories(cat.categories || [{ id: Date.now(), name: "" }]);
         setSubCategories(cat.subcategories || {});
@@ -37,14 +36,12 @@ const EditCategory = () => {
     fetchCategory();
   }, [id]);
 
-  // Update category name
   const handleCategoryChange = (index, value) => {
     const updated = [...categories];
     updated[index].name = value;
     setCategories(updated);
   };
 
-  // Add Subcategory
   const addSubCategory = (categoryName) => {
     setSubCategories({
       ...subCategories,
@@ -52,14 +49,12 @@ const EditCategory = () => {
     });
   };
 
-  // Update subcategory
   const handleSubCategoryChange = (categoryName, index, value) => {
     const updated = [...(subCategories[categoryName] || [])];
     updated[index] = value;
     setSubCategories({ ...subCategories, [categoryName]: updated });
   };
 
-  // Add Subcategory 2
   const addSubCategory2Option = (subCategoryName) => {
     setSubCategory2Options({
       ...subCategory2Options,
@@ -67,7 +62,6 @@ const EditCategory = () => {
     });
   };
 
-  // Update Subcategory 2
   const handleSubCategory2Change = (subCategoryName, index, value) => {
     const updated = [...(subCategory2Options[subCategoryName] || [])];
     updated[index] = value;
@@ -77,7 +71,6 @@ const EditCategory = () => {
     });
   };
 
-  // Submit edited data
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,7 +139,6 @@ const EditCategory = () => {
               </div>
             </div>
 
-            {/* Subcategories */}
             {cat.name && (
               <div className="ml-6 mb-3">
                 <h3 className="font-semibold mb-2 text-gray-700">
@@ -186,7 +178,6 @@ const EditCategory = () => {
           </div>
         ))}
 
-        {/* Subcategory Level 2 */}
         {Object.keys(subCategory2Options).length > 0 && (
           <div className="mt-6">
             <h3 className="font-bold text-lg text-gray-800 mb-3">

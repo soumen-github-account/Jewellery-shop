@@ -1,4 +1,4 @@
-// frontend/src/components/DashBoard.jsx
+
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,6 @@ const AllCustomers = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
-  // Fetch all customers
   const fetchCustomers = async () => {
     try {
       const res = await axios.get(backendUrl + "/auth/get-customer");
@@ -32,7 +31,6 @@ const AllCustomers = () => {
     fetchCustomers();
   }, []);
 
-  // Filter customers based on search input
   const filteredCustomers = customers.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
     c.phone.includes(search)
@@ -51,7 +49,6 @@ const AllCustomers = () => {
     <div className="w-full mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-[#7B542F]">Customer List ({totalCustomers})</h2>
 
-      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"

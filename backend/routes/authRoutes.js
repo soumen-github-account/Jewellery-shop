@@ -1,4 +1,4 @@
-// routes/authRoutes.js
+
 import express from "express";
 import passport from "../config/passport.js";
 import {
@@ -17,27 +17,19 @@ import {
 
 const router = express.Router();
 
-// ================= Google OAuth =================
-
-// Step 1: Start Google OAuth
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"], session: false, }));
 
-// Step 2: Google callback URL
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/login/failure" }),
   googleCallback
 );
 
-// ================= Email/Password Authentication =================
 
-// Signup route
 router.post("/signup", signup);
 
-// Login route
 router.post("/login", login);
 
-// ================= Other routes =================
 router.get("/login/failure", loginFailure);
 router.get("/logout", logoutUser);
 router.get("/user", getUser);

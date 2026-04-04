@@ -9,9 +9,7 @@ import { MdOutlinePeopleAlt } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
 
 const Sidebar = () => {
-    // const {atoken} = useContext(AdminContext)
-    // const {dtoken} = useContext(DoctorContext)
-
+   
   return (
     <div className='min-h-[90vh] bg-white border-r-1 border-r-gray-300'>
       <ul className='text-[#515151] mt-5'>

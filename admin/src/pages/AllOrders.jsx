@@ -9,7 +9,6 @@ const AllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
 
-  // Fetch all orders
   const getOrders = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/admin/get-orders", {
@@ -24,7 +23,6 @@ const AllOrders = () => {
     }
   };
 
-  // Delete order by ID
   const deleteOrder = async (id) => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
 
@@ -35,7 +33,7 @@ const AllOrders = () => {
       );
       if (data.success) {
         toast.success(data.message);
-        getOrders(); // Refresh the list
+        getOrders(); 
       }
     } catch (error) {
       console.error("Delete order error:", error);

@@ -1,7 +1,5 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-// import { jewelleryData } from "../assets/data";
-
 import b1 from '../assets/b1.jpeg'
 import b2 from '../assets/b2.jpeg'
 import b3 from '../assets/b3.jpeg'

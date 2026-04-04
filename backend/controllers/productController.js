@@ -8,7 +8,6 @@ export const toggleWishlist = async (req, res) => {
 
     if (!productId) return res.status(400).json({ success: false, message: "Product ID required" });
 
-    // Check if product is already in wishlist
     const existing = await sql`
       SELECT * FROM wishlist WHERE user_id = ${userId} AND product_id = ${productId};
     `;
@@ -32,7 +31,6 @@ export const toggleWishlist = async (req, res) => {
   }
 };
 
-// Get all wishlist items
 export const getWishlist = async (req, res) => {
   try {
     const userId = req.userId;
@@ -51,7 +49,6 @@ export const getWishlist = async (req, res) => {
   }
 };
 
-// Check if product is in wishlist
 export const checkWishlist = async (req, res) => {
   try {
     const userId = req.userId;
@@ -104,14 +101,12 @@ export const editProduct = async (req, res) => {
     const tagsArr = typeof tags === "string" ? JSON.parse(tags) : tags || [];
     const existing = typeof existingImages === "string" ? JSON.parse(existingImages) : existingImages;
 
-    // Upload new files
     const uploadedImages = [];
     for (const file of req.files) {
       const result = await uploadToCloudinary(file.buffer);
       uploadedImages.push(result.secure_url);
     }
 
-    // Merge
     const images = [...existing, ...uploadedImages];
 
     const result = await sql`

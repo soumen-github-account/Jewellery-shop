@@ -1,4 +1,3 @@
-
 // import React, { useState, useEffect, useContext } from "react";
 // import { useParams, useNavigate } from "react-router-dom";
 // import axios from "axios";
@@ -227,7 +226,7 @@
 //                 inWishlist ? navigate("/wishlist") : toggleWishlist(product);
 //               }}
 //               disabled={toggleLoading}
-//               className={`bg-[#704F38] text-white px-6 py-2 rounded-full font-medium shadow-md transition 
+//               className={`bg-[#704F38] text-white px-6 py-2 rounded-full font-medium shadow-md transition
 //                 ${
 //                   toggleLoading
 //                     ? "cursor-not-allowed opacity-50"
@@ -249,7 +248,6 @@
 
 // export default ProductView;
 
-
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -263,8 +261,13 @@ import { AppContext } from "../contexts/AppContext";
 const ProductView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { backendUrl, jewelleryData, toggleWishlist, isInWishlist, toggleLoading } =
-    useContext(AppContext);
+  const {
+    backendUrl,
+    jewelleryData,
+    toggleWishlist,
+    isInWishlist,
+    toggleLoading,
+  } = useContext(AppContext);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -276,7 +279,9 @@ const ProductView = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${backendUrl}/products/get-product/${id}`);
+        const { data } = await axios.get(
+          `${backendUrl}/products/get-product/${id}`,
+        );
         if (data.success) setProduct(data.product);
         else setProduct(null);
       } catch (err) {
@@ -296,7 +301,7 @@ const ProductView = () => {
           ? prev === product.images.length - 1
             ? 0
             : prev + 1
-          : prev
+          : prev,
       ),
     onSwipedRight: () =>
       setActiveIndex((prev) =>
@@ -304,30 +309,30 @@ const ProductView = () => {
           ? prev === 0
             ? product.images.length - 1
             : prev - 1
-          : prev
+          : prev,
       ),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
 
-  // --- Loading Skeleton ---
   if (loading) {
     return (
       <div>
         <Navbar2 name={"Product Details"} />
         <div className="min-h-screen bg-white px-3 pt-15 pb-22 font-playfair">
           <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-10 animate-pulse">
-            {/* Left image skeleton */}
             <div className="flex-1">
               <div className="w-full h-80 lg:h-[500px] bg-gray-200 rounded-xl mb-4"></div>
               <div className="flex gap-2 mb-4 overflow-x-auto">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-16 h-16 bg-gray-200 rounded-lg"></div>
+                  <div
+                    key={i}
+                    className="w-16 h-16 bg-gray-200 rounded-lg"
+                  ></div>
                 ))}
               </div>
             </div>
 
-            {/* Right details skeleton */}
             <div className="flex-1 space-y-4">
               <div className="h-6 bg-gray-200 rounded w-3/4"></div>
               <div className="h-4 bg-gray-200 w-1/4"></div>
@@ -360,7 +365,6 @@ const ProductView = () => {
       <Navbar2 name={"Product Details"} />
       <div className="min-h-screen bg-white text-gray-800 font-playfair pt-15 pb-22 px-3 lg:px-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
-          {/* --- Left Section (Images) --- */}
           <div className="flex-1" {...handlers}>
             <div className="relative rounded-xl overflow-hidden select-none">
               {product.images && product.images.length > 0 ? (
@@ -407,7 +411,6 @@ const ProductView = () => {
             )}
           </div>
 
-          {/* --- Right Section (Details) --- */}
           <div className="flex-1 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center">
@@ -436,7 +439,6 @@ const ProductView = () => {
               </div>
             </div>
 
-            {/* --- Price and Button (non-sticky for large screens) --- */}
             <div className="mt-6 md:flex justify-between items-center hidden">
               <div>
                 <p className="text-gray-800 font-semibold text-xl">
@@ -461,66 +463,65 @@ const ProductView = () => {
                 {toggleLoading
                   ? "Processing..."
                   : inWishlist
-                  ? "Go to Wishlist"
-                  : "Add to Wishlist"}
+                    ? "Go to Wishlist"
+                    : "Add to Wishlist"}
               </button>
             </div>
           </div>
         </div>
 
-        {/* --- Additional Product Details --- */}
-<div className="mt-6 bg-[#faf7f5] rounded-2xl p-5 border border-[#e5ded9]">
-  <h3 className="text-lg font-semibold mb-3 text-[#704F38]">Product Information</h3>
+        <div className="mt-6 bg-[#faf7f5] rounded-2xl p-5 border border-[#e5ded9]">
+          <h3 className="text-lg font-semibold mb-3 text-[#704F38]">
+            Product Information
+          </h3>
 
-  <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-3 text-[15px] text-gray-700">
-    <p>
-      <span className="font-semibold text-gray-900">Metal Type:</span>{" "}
-      {product.metal_type}
-    </p>
-    <p>
-      <span className="font-semibold text-gray-900">Color:</span>{" "}
-      {product.color}
-    </p>
-    <p>
-      <span className="font-semibold text-gray-900">Category:</span>{" "}
-      {product.category}
-    </p>
-    <p>
-      <span className="font-semibold text-gray-900">Sub Category:</span>{" "}
-      {product.sub_category}
-    </p>
-    <p>
-      <span className="font-semibold text-gray-900">Style Type:</span>{" "}
-      {product.sub_category2}
-    </p>
-    <p>
-      <span className="font-semibold text-gray-900">Offer:</span>{" "}
-      <span className="text-green-600 font-medium">{product.offer}</span>
-    </p>
-  </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-3 text-[15px] text-gray-700">
+            <p>
+              <span className="font-semibold text-gray-900">Metal Type:</span>{" "}
+              {product.metal_type}
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Color:</span>{" "}
+              {product.color}
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Category:</span>{" "}
+              {product.category}
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Sub Category:</span>{" "}
+              {product.sub_category}
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Style Type:</span>{" "}
+              {product.sub_category2}
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Offer:</span>{" "}
+              <span className="text-green-600 font-medium">
+                {product.offer}
+              </span>
+            </p>
+          </div>
 
-  {/* Tags */}
-  {product.tags && product.tags.length > 0 && (
-    <div className="mt-4 flex flex-wrap gap-2">
-      {product.tags.map((tag, index) => (
-        <span
-          key={index}
-          className="bg-[#704F38]/10 text-[#704F38] px-3 py-1 rounded-full text-sm font-medium"
-        >
-          #{tag}
-        </span>
-      ))}
-    </div>
-  )}
-</div>
+          {product.tags && product.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {product.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="bg-[#704F38]/10 text-[#704F38] px-3 py-1 rounded-full text-sm font-medium"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
 
-
-        {/* --- Suggestion Section --- */}
         <div className="mt-10">
           <SuggestionProduct cat={product.category} />
         </div>
 
-        {/* --- More Products --- */}
         <div className="mt-10">
           <p className="text-xl font-bold mb-4">More Products</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -531,7 +532,6 @@ const ProductView = () => {
           </div>
         </div>
 
-        {/* --- Sticky bottom bar (only for mobile) --- */}
         <div className="lg:hidden fixed left-0 bottom-0 bg-white w-full flex justify-between items-center px-4 py-2 border-t border-gray-300 rounded-t-2xl shadow-sm">
           <div className="flex items-center gap-3">
             <p className="text-gray-800 font-semibold text-lg">
@@ -556,8 +556,8 @@ const ProductView = () => {
             {toggleLoading
               ? "Processing..."
               : inWishlist
-              ? "Go to Wishlist"
-              : "Add to Wishlist"}
+                ? "Go to Wishlist"
+                : "Add to Wishlist"}
           </button>
         </div>
       </div>

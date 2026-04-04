@@ -64,7 +64,6 @@ const SearchResultsPage = () => {
     setResults(filtered);
     setFilteredResults(filtered);
 
-    //  Create filter options based on search type
     if (queryType === "category") {
       const subs = [
         ...new Set(
@@ -84,10 +83,8 @@ const SearchResultsPage = () => {
     setSelectedFilter(null);
   }, [type, queryType, jewelleryData]);
 
-  //  Handle Filter Click
   const handleFilter = (option) => {
     if (selectedFilter === option) {
-      // unselect
       setSelectedFilter(null);
       setFilteredResults(results);
       return;
@@ -111,13 +108,11 @@ const SearchResultsPage = () => {
     <div className="">
         <Navbar2 name={"Searching Product"} />
     <div className="min-h-screen bg-[#FCFDF5] pb-20 px-5 pt-16">
-      {/*  Header */}
       <h2 className="text-lg font-semibold text-gray-800 mb-3">
         Showing results for:{" "}
         <span className="text-pink-600">{type}</span>
       </h2>
 
-      {/*  Filter Bar */}
       {filterOptions.length > 0 && (
         <div className="mb-5 overflow-x-auto scroll-hide">
           <div className="flex gap-2 min-w-max">
@@ -138,7 +133,6 @@ const SearchResultsPage = () => {
         </div>
       )}
 
-      {/*  Product Grid */}
       {filteredResults.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">
           No products found for this {queryType}.

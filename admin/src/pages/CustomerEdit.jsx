@@ -1,4 +1,4 @@
-// frontend/src/components/EditCustomer.jsx
+
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 const CustomerEdit = () => {
   const {backendUrl} = useContext(AdminContext)
-  const { id } = useParams(); // customer _id from URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -24,7 +24,6 @@ const CustomerEdit = () => {
 
   const [message, setMessage] = useState("");
 
-  // Fetch customer details
   const fetchCustomer = async () => {
     try {
       const res = await axios.get(backendUrl + `/auth/get-customer/${id}`);
@@ -36,8 +35,8 @@ const CustomerEdit = () => {
         phone: customer.phone || "",
         address: customer.address || "",
         due: customer.due || 0,
-        check_no: "", // optional, for new product
-        productName: "", // optional, for new product
+        check_no: "",
+        productName: "", 
         quantity: 1,
         price: 0,
       });
@@ -60,7 +59,6 @@ const CustomerEdit = () => {
     try {
       await axios.post(backendUrl + "/auth/add-customer", form);
       toast.success("Customer updated successfully!");
-      // Optionally redirect back to dashboard
       navigate("/all-customer");
     } catch (err) {
       setMessage(err.response?.data?.message || "Error updating customer.");

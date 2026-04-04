@@ -1,4 +1,4 @@
-// server.js
+
 import express from "express";
 import cors from "cors";
 import session from "express-session";
@@ -14,8 +14,6 @@ import adminRoutes from "./routes/adminRoutes.js"
 
 const app = express();
 const port = process.env.PORT || 8000;
-
-// Middleware
 
 app.use(express.json());
 app.use(cookieParser());
@@ -37,7 +35,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like Postman)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -50,21 +47,20 @@ app.use(
   })
 );
 
-// Session setup (required for Passport + Google Auth)
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecretkey",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // production only true in prod (HTTPS)
-      sameSite: "None", // required when frontend on different domain
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "None", 
       httpOnly: true,
     },
   })
 );
 
-// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
