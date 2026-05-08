@@ -87,17 +87,52 @@ export const loginFailure = (req, res) => {
   res.status(401).json({ success: false, message: "Failed to authenticate with Google 😢" });
 };
 
+// export const logoutUser = (req, res) => {
+//   req.logout(function(err) {
+//     if (err) return res.status(500).json({ success: false, message: "Logout failed" });
+//     req.session.destroy(() => {
+//       res.clearCookie("connect.sid"); 
+//       res.clearCookie("token"); 
+//       return res.status(200).json({ success: true, message: "Logged out successfully" });
+//     });
+//   });
+// };
 export const logoutUser = (req, res) => {
-  req.logout(function(err) {
-    if (err) return res.status(500).json({ success: false, message: "Logout failed" });
-    req.session.destroy(() => {
-      res.clearCookie("connect.sid"); 
-      res.clearCookie("token"); 
-      return res.status(200).json({ success: true, message: "Logged out successfully" });
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Logout failed",
+      });
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Session destroy failed",
+        });
+      }
+
+      res.clearCookie("connect.sid", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
+
+      res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: "Logged out successfully",
+      });
     });
   });
 };
-
 
 export const getUser = async (req, res) => {
   try {
