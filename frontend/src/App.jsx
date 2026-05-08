@@ -46,11 +46,15 @@ const App = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="/all-product" element={<AllProduct />} />
-        <Route path="/product-view/:id" element={<ProductView />} />
+        <Route path="/product-view/:name/:id" element={<ProductView />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="/show-all-category/:cat" element={<ShowAllCategoryDataPage />} />
-        <Route path="/search-products/:type" element={<SearchResultsPage />} />
+        {/* <Route path="/search-products/:type" element={<SearchResultsPage />} /> */}
+
+        <Route path="/category/:cat" element={<SearchResultsPage />} />
+        <Route path="/tag/:type" element={<SearchResultsPage />} />
+        <Route path="/subcategory/:type" element={<SearchResultsPage />} />
       </Routes>
     </div>
   );

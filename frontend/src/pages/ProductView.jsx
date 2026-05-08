@@ -257,9 +257,10 @@ import SuggestionProduct from "../AppComponents/SuggestionProduct";
 import ProductCard from "../components/ProductCard";
 import { useSwipeable } from "react-swipeable";
 import { AppContext } from "../contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 const ProductView = () => {
-  const { id } = useParams();
+  const { id, name } = useParams();
   const navigate = useNavigate();
   const {
     backendUrl,
@@ -362,6 +363,83 @@ const ProductView = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          {product.name} | Celestique Jewellery Store
+        </title>
+
+        <meta
+          name="description"
+          content={
+            product.description ||
+            `Buy ${product.name} luxury jewellery online at Celestique Jewellery Store.`
+          }
+        />
+        <meta
+          name="keywords"
+          content={`
+            ${product.name},
+            ${product.category},
+            ${product.sub_category},
+            gold jewellery,
+            diamond jewellery,
+            luxury jewellery
+          `}
+        />
+
+        <meta
+          name="robots"
+          content="index, follow"
+        />
+
+        <link
+          rel="canonical"
+          href={`https://jewellery-shop-frontend-henna.vercel.app/product-view/${id}`}
+        />
+         <meta
+          property="og:title"
+          content={product.name}
+        />
+
+        <meta
+          property="og:description"
+          content={product.description}
+        />
+
+        <meta
+          property="og:image"
+          content={product.images?.[0]}
+        />
+
+        <meta
+          property="og:type"
+          content="product"
+        />
+
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": "${product.name}",
+            "image": "${product.images?.[0]}",
+            "description": "${product.description}",
+            "brand": {
+              "@type": "Brand",
+              "name": "Celestique Jewellery Store"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "INR",
+              "price": "${product.discount_price}",
+              "availability": "https://schema.org/InStock"
+            }
+          }
+          `}
+        </script>
+      </Helmet>
+
+
       <Navbar2 name={"Product Details"} />
       <div className="min-h-screen bg-white text-gray-800 font-playfair pt-15 pb-22 px-3 lg:px-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
@@ -414,13 +492,13 @@ const ProductView = () => {
           <div className="flex-1 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center">
-                <p className="text-sm text-gray-500">Female’s Style</p>
+                <p className="text-sm text-gray-500">{product.category}</p>
                 <div className="flex items-center text-yellow-500">
                   <AiFillStar className="mr-1" /> <span>{product.rating}</span>
                 </div>
               </div>
 
-              <h2 className="text-2xl font-semibold mt-1">{product.name}</h2>
+              <h1 className="text-2xl font-semibold mt-1">{product.name}</h1>
               <p className="mt-3 text-gray-700 leading-relaxed text-[15px]">
                 {product.description}
               </p>
@@ -430,11 +508,35 @@ const ProductView = () => {
                 <span className="text-gray-600">{product.metal_type}</span>
               </p>
 
-              <div className="mt-4">
-                <p className="font-bold">Description</p>
-                <p className="text-[14px] text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Officiis reiciendis repellat at earum, id vitae tempore...
+              <div className="mt-5 flex items-center gap-4">
+
+                <p className="text-3xl font-bold text-[#704F38]">
+                  ₹
+                  {(
+                    product.discount_price || 0
+                  ).toFixed(2)}
+                </p>
+
+                <p className="text-gray-400 line-through">
+                  ₹
+                  {(
+                    product.original_price || 0
+                  ).toFixed(2)}
+                </p>
+              </div>
+
+              <div className="mt-6">
+                <h2 className="font-bold text-lg mb-2">
+                  About This Jewellery
+                </h2>
+
+                <p className="text-[14px] text-gray-600 leading-relaxed">
+                  Discover premium handcrafted luxury
+                  jewellery designed for weddings,
+                  fashion and special occasions. This
+                  elegant {product.name.toLowerCase()}
+                  offers premium quality finish with
+                  modern and timeless style.
                 </p>
               </div>
             </div>
@@ -449,6 +551,7 @@ const ProductView = () => {
                 </p>
               </div>
               <button
+                aria-label="Add to wishlist"
                 onClick={() => {
                   if (toggleLoading) return;
                   inWishlist ? navigate("/wishlist") : toggleWishlist(product);
@@ -471,9 +574,9 @@ const ProductView = () => {
         </div>
 
         <div className="mt-6 bg-[#faf7f5] rounded-2xl p-5 border border-[#e5ded9]">
-          <h3 className="text-lg font-semibold mb-3 text-[#704F38]">
+          <h2 className="text-lg font-semibold mb-3 text-[#704F38]">
             Product Information
-          </h3>
+          </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-3 text-[15px] text-gray-700">
             <p>
@@ -542,6 +645,7 @@ const ProductView = () => {
             </p>
           </div>
           <button
+            aria-label="Add to wishlist"
             onClick={() => {
               if (toggleLoading) return;
               inWishlist ? navigate("/wishlist") : toggleWishlist(product);

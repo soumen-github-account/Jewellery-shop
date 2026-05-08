@@ -1,87 +1,159 @@
 
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
 import ProductCard from "../components/ProductCard";
 import Navbar2 from "../AppComponents/Navbar2";
+import { Helmet } from "react-helmet-async";
 
 const SearchResultsPage = () => {
+  // const { type } = useParams();
+  // const queryType = new URLSearchParams(location.search).get("type");
+
+  const { cat, type } = useParams();
+
+  const searchValue = cat || type || "";
+  const path = window.location.pathname;
+
   const { jewelleryData } = useContext(AppContext);
-  const { type } = useParams();
-  const location = useLocation();
+
   const navigate = useNavigate();
 
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [filterOptions, setFilterOptions] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const location = useLocation();
 
-  const queryType = new URLSearchParams(location.search).get("type");
+  const queryType = useMemo(() => {
+    if (location.pathname.includes("/category")) return "category";
+    if (location.pathname.includes("/subcategory")) return "subcategory";
+    if (location.pathname.includes("/tag")) return "tag";
+    return "search";
+  }, [location.pathname]);
+  
+  // useEffect(() => {
+  //   if (!type) return;
+  //   const q = decodeURIComponent(type).toLowerCase();
+  //   let filtered = [];
 
+  //   switch (queryType) {
+  //     case "category":
+  //       filtered = jewelleryData.filter(
+  //         (i) => i.category.toLowerCase() === q
+  //       );
+  //       break;
+  //     case "subcategory":
+  //       filtered = jewelleryData.filter(
+  //         (i) =>
+  //           i.sub_category.toLowerCase() === q ||
+  //           i.sub_category2?.toLowerCase() === q
+  //       );
+  //       break;
+  //     case "tag":
+  //       filtered = jewelleryData.filter((i) =>
+  //         i.tags?.some((t) => t.toLowerCase() === q)
+  //       );
+  //       break;
+  //     case "product":
+  //       filtered = jewelleryData.filter(
+  //         (i) =>
+  //           i.category.toLowerCase() === q ||
+  //           i.sub_category.toLowerCase() === q ||
+  //           i.sub_category2?.toLowerCase() === q
+  //       );
+  //       break;
+  //     default:
+  //       filtered = jewelleryData.filter(
+  //         (i) =>
+  //           i.name.toLowerCase().includes(q) ||
+  //           i.category.toLowerCase().includes(q) ||
+  //           i.sub_category.toLowerCase().includes(q) ||
+  //           i.tags?.some((t) => t.toLowerCase().includes(q))
+  //       );
+  //       break;
+  //   }
+
+  //   setResults(filtered);
+  //   setFilteredResults(filtered);
+
+  //   if (queryType === "category") {
+  //     const subs = [
+  //       ...new Set(
+  //         filtered.map((p) => p.sub_category || p.sub_category2).filter(Boolean)
+  //       ),
+  //     ];
+  //     setFilterOptions(subs);
+  //   } else if (queryType === "subcategory") {
+  //     const tags = [
+  //       ...new Set(filtered.flatMap((p) => p.tags || [])),
+  //     ];
+  //     setFilterOptions(tags);
+  //   } else {
+  //     setFilterOptions([]);
+  //   }
+
+  //   setSelectedFilter(null);
+  // }, [type, queryType, jewelleryData]);
   useEffect(() => {
-    if (!type) return;
-    const q = decodeURIComponent(type).toLowerCase();
+    if (!searchValue) return;
+
+    const q = decodeURIComponent(searchValue).toLowerCase();
+
     let filtered = [];
 
     switch (queryType) {
       case "category":
         filtered = jewelleryData.filter(
-          (i) => i.category.toLowerCase() === q
+          (i) => i.category?.toLowerCase() === q
         );
         break;
+
       case "subcategory":
         filtered = jewelleryData.filter(
           (i) =>
-            i.sub_category.toLowerCase() === q ||
+            i.sub_category?.toLowerCase() === q ||
             i.sub_category2?.toLowerCase() === q
         );
         break;
+
       case "tag":
         filtered = jewelleryData.filter((i) =>
           i.tags?.some((t) => t.toLowerCase() === q)
         );
         break;
-      case "product":
-        filtered = jewelleryData.filter(
-          (i) =>
-            i.category.toLowerCase() === q ||
-            i.sub_category.toLowerCase() === q ||
-            i.sub_category2?.toLowerCase() === q
-        );
-        break;
+
       default:
         filtered = jewelleryData.filter(
           (i) =>
-            i.name.toLowerCase().includes(q) ||
-            i.category.toLowerCase().includes(q) ||
-            i.sub_category.toLowerCase().includes(q) ||
+            i.name?.toLowerCase().includes(q) ||
+            i.category?.toLowerCase().includes(q) ||
+            i.sub_category?.toLowerCase().includes(q) ||
             i.tags?.some((t) => t.toLowerCase().includes(q))
         );
-        break;
     }
 
     setResults(filtered);
     setFilteredResults(filtered);
 
+    // filters
     if (queryType === "category") {
-      const subs = [
+      setFilterOptions([
         ...new Set(
-          filtered.map((p) => p.sub_category || p.sub_category2).filter(Boolean)
+          filtered
+            .map((p) => p.sub_category || p.sub_category2)
+            .filter(Boolean)
         ),
-      ];
-      setFilterOptions(subs);
+      ]);
     } else if (queryType === "subcategory") {
-      const tags = [
-        ...new Set(filtered.flatMap((p) => p.tags || [])),
-      ];
-      setFilterOptions(tags);
+      setFilterOptions([...new Set(filtered.flatMap((p) => p.tags || []))]);
     } else {
       setFilterOptions([]);
     }
 
     setSelectedFilter(null);
-  }, [type, queryType, jewelleryData]);
+  }, [searchValue, queryType, jewelleryData]);
 
   const handleFilter = (option) => {
     if (selectedFilter === option) {
@@ -106,68 +178,83 @@ const SearchResultsPage = () => {
 
   return (
     <div className="">
-        <Navbar2 name={"Searching Product"} />
-    <div className="min-h-screen bg-[#FCFDF5] pb-20 px-5 pt-16">
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">
-        Showing results for:{" "}
-        <span className="text-pink-600">{type}</span>
-      </h2>
+      <Helmet>
+        <title>{type ? `${type} Jewellery Online | Celestique` : "Jewellery Online | Celestique"}</title>
+        <meta
+          name="description"
+          content={`Shop premium ${type} jewellery including gold, diamond, silver designs at best price.`}
+        />
+        <link
+          rel="canonical"
+          href={`https://jewellery-shop-frontend-henna.vercel.app/category/${type}`}
+        />
+      </Helmet>
 
-      {filterOptions.length > 0 && (
-        <div className="mb-5 overflow-x-auto scroll-hide">
-          <div className="flex gap-2 min-w-max">
-            {filterOptions.map((option, i) => (
-              <button
-                key={i}
-                onClick={() => handleFilter(option)}
-                className={`px-4 py-2 rounded-full border text-sm whitespace-nowrap transition-all ${
-                  selectedFilter === option
-                    ? "bg-pink-600 text-white border-pink-600"
-                    : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                {option}
-              </button>
+      <Navbar2 name={"Searching Product"} />
+      <div className="min-h-screen bg-[#FCFDF5] pb-20 px-5 pt-16">
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">
+          Showing results for:{" "}
+          <span className="text-pink-600">{type}</span>
+        </h2>
+        <p className="text-sm text-gray-600 mb-4">
+          Browse premium jewellery collections including rings, necklaces, earrings, bracelets and luxury designs based on your search.
+        </p>
+
+        {filterOptions.length > 0 && (
+          <div className="mb-5 overflow-x-auto scroll-hide">
+            <div className="flex gap-2 min-w-max">
+              {filterOptions.map((option, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleFilter(option)}
+                  className={`px-4 py-2 rounded-full border text-sm whitespace-nowrap transition-all ${
+                    selectedFilter === option
+                      ? "bg-pink-600 text-white border-pink-600"
+                      : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {filteredResults.length === 0 ? (
+          <p className="text-center text-gray-500 mt-10">
+            No products found for this {queryType}.
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {filteredResults.map((item) => (
+              // <div
+              //   key={item.id}
+              //   onClick={() => navigate(`/product/${item.id}`)}
+              //   className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-3 cursor-pointer"
+              // >
+              //   <img
+              //     src={item.images?.[0]}
+              //     alt={item.name}
+              //     className="w-full h-40 object-cover rounded-lg"
+              //   />
+              //   <p className="mt-2 text-sm font-semibold text-gray-800 line-clamp-1">
+              //     {item.name}
+              //   </p>
+              //   <p className="text-xs text-gray-500">{item.sub_category}</p>
+              //   <div className="flex items-center justify-between mt-1">
+              //     <span className="text-pink-600 font-semibold">
+              //       ₹{item.discountPrice}
+              //     </span>
+              //     <span className="text-xs text-gray-400 line-through">
+              //       ₹{item.originalPrice}
+              //     </span>
+              //   </div>
+              // </div>
+              <ProductCard item={item} />
             ))}
           </div>
-        </div>
-      )}
-
-      {filteredResults.length === 0 ? (
-        <p className="text-center text-gray-500 mt-10">
-          No products found for this {queryType}.
-        </p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {filteredResults.map((item) => (
-            // <div
-            //   key={item.id}
-            //   onClick={() => navigate(`/product/${item.id}`)}
-            //   className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-3 cursor-pointer"
-            // >
-            //   <img
-            //     src={item.images?.[0]}
-            //     alt={item.name}
-            //     className="w-full h-40 object-cover rounded-lg"
-            //   />
-            //   <p className="mt-2 text-sm font-semibold text-gray-800 line-clamp-1">
-            //     {item.name}
-            //   </p>
-            //   <p className="text-xs text-gray-500">{item.sub_category}</p>
-            //   <div className="flex items-center justify-between mt-1">
-            //     <span className="text-pink-600 font-semibold">
-            //       ₹{item.discountPrice}
-            //     </span>
-            //     <span className="text-xs text-gray-400 line-through">
-            //       ₹{item.originalPrice}
-            //     </span>
-            //   </div>
-            // </div>
-            <ProductCard item={item} />
-          ))}
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 };

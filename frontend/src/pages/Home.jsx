@@ -78,32 +78,36 @@ const Home = () => {
     <>
       {/* SEO */}
       <Helmet>
-        <title>
-          Elegant Jewellery Store | Gold, Silver & Diamond Jewellery
-        </title>
+        <title>Gold Jewellery Online | Buy Gold, Diamond & Silver Jewellery - Celestique</title>
 
-        <meta
-          name="description"
-          content="Shop premium gold, silver and diamond jewellery online. Explore handcrafted rings, necklaces, earrings and luxury collections."
-        />
+        <meta name="description" content="Buy gold jewellery online in India. Explore premium gold rings, diamond necklaces, earrings and silver jewellery with elegant handcrafted designs at Celestique Jewellery." />
 
-        <meta
-          name="keywords"
-          content="gold jewellery, diamond ring, silver necklace, jewellery store"
-        />
+        <meta name="keywords" content="gold jewellery online, buy gold jewellery, diamond jewellery, silver jewellery, gold rings, gold necklace, jewellery online India" />
+
+        <link rel="canonical" href="https://jewellery-shop-frontend-henna.vercel.app/" />
 
         <meta name="robots" content="index, follow" />
-
-        <link
-          rel="canonical"
-          href="https://jewellery-shop-frontend-henna.vercel.app/"
-        />
+        
+        <script type="application/ld+json">
+          {`{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Celestique Jewellery",
+            "url": "https://jewellery-shop-frontend-henna.vercel.app/",
+            "description": "Buy gold jewellery online in India including rings, necklaces and diamond jewellery.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://jewellery-shop-frontend-henna.vercel.app/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }`}
+        </script>
       </Helmet>
 
       <div>
         {/* Main SEO Heading */}
         <h1 className="hidden">
-          Elegant Gold, Silver & Diamond Jewellery Collection
+          Celestique Gold, Silver & Diamond Jewellery Collection
         </h1>
 
         {width > 600 ? (

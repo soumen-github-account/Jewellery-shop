@@ -8,12 +8,19 @@ const ProductCard = ({ item }) => {
   const navigate = useNavigate();
   const { toggleWishlist, isInWishlist, toggleLoading } = useContext(AppContext);
   const inWishlist = isInWishlist(item.id);
+  const createSlug = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
+  };
   return (
     <div className="flex flex-col items-start border-1 border-gray-300 shadow-xs font-playfair pb-2">
       <div className="relative overflow-hidden bg-white">
         <img
           onClick={() => {
-            navigate(`/product-view/${item.id}`);
+            navigate(`/product-view/${createSlug(item.name)}/${item.id}`);
             scrollTo(0, 0);
           }}
           src={item.images[0]}
@@ -52,7 +59,7 @@ const ProductCard = ({ item }) => {
       </div>
       <div
         onClick={() => {
-          navigate(`/product-view/${item.id}`);
+          navigate(`/product-view/${createSlug(item.name)}/${item.id}`);
           scrollTo(0, 0);
         }}
         className="px-5 mt-3 cursor-pointer"

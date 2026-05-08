@@ -1,17 +1,261 @@
+// import React, { useContext, useEffect, useRef, useState } from "react";
+// import { IoSearch } from "react-icons/io5";
+// import { FaFire } from "react-icons/fa";
+// import { useNavigate } from "react-router-dom";
+// import BottomNav from "../AppComponents/BottomNav";
+// import { AppContext } from "../contexts/AppContext";
+// import { Helmet } from "react-helmet-async";
+
+// const SearchPage = () => {
+//   const {jewelleryData} = useContext(AppContext)
+//   const [query, setQuery] = useState("");
+//   const [suggestions, setSuggestions] = useState([]);
+//   const [popularProducts, setPopularProducts] = useState([]);
+//   const [recentSearches, setRecentSearches] = useState([]);
+//   const [showSuggestions, setShowSuggestions] = useState(false);
+//   const inputRef = useRef(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     inputRef.current?.focus();
+
+//     const shuffled = [...jewelleryData].sort(() => 0.5 - Math.random());
+//     setPopularProducts(shuffled.slice(0, 8));
+
+//     const saved = JSON.parse(localStorage.getItem("recentSearches")) || [];
+//     setRecentSearches(saved);
+//   }, []);
+
+//   useEffect(() => {
+//     if (query.trim() === "") {
+//       setSuggestions([]);
+//       setShowSuggestions(false);
+//       return;
+//     }
+
+//     const q = query.toLowerCase();
+//     const allCategories = [
+//       ...new Set(jewelleryData.map((i) => i.category)),
+//     ];
+//     const allSubCategories = [
+//       ...new Set(jewelleryData.map((i) => i.sub_category)),
+//     ];
+//     const allTags = [
+//       ...new Set(jewelleryData.flatMap((i) => i.tags || [])),
+//     ];
+
+//     const catMatches = allCategories
+//       .filter((c) => c.toLowerCase().includes(q))
+//       .map((c) => ({ type: "category", label: c }));
+
+//     const subMatches = allSubCategories
+//       .filter((c) => c.toLowerCase().includes(q))
+//       .map((c) => ({ type: "subcategory", label: c }));
+
+//     const tagMatches = allTags
+//       .filter((t) => t.toLowerCase().includes(q))
+//       .map((t) => ({ type: "tag", label: t }));
+
+//     const productMatches = jewelleryData
+//       .filter(
+//         (item) =>
+//           item.name.toLowerCase().includes(q) ||
+//           item.description.toLowerCase().includes(q)
+//       )
+//       .map((item) => ({ type: "product", item }));
+
+//     setSuggestions([...catMatches, ...subMatches, ...tagMatches, ...productMatches]);
+//     setShowSuggestions(true);
+//   }, [query]);
+
+//   const saveSearch = (term) => {
+//     const updated = [term, ...recentSearches.filter((t) => t !== term)].slice(0, 5);
+//     setRecentSearches(updated);
+//     localStorage.setItem("recentSearches", JSON.stringify(updated));
+//   };
+
+//   // const handleSelect = (s) => {
+//   //   setShowSuggestions(false);
+//   //   if (s.type === "product") {
+//   //     const t = s.item.sub_category2 || s.item.sub_category || s.item.category;
+//   //     saveSearch(s.item.name);
+//   //     navigate(`/search-products/${encodeURIComponent(t)}?type=product`);
+//   //   } else {
+//   //     saveSearch(s.label);
+//   //     navigate(`/search-products/${encodeURIComponent(s.label)}?type=${s.type}`);
+//   //   }
+//   // };
+
+//   const handleSelect = (s) => {
+//     setShowSuggestions(false);
+
+//     if (s.type === "product") {
+//       saveSearch(s.item.name);
+//       navigate(`/product-view/${s.item.name}/${s.item.id}`);
+//       return;
+//     }
+
+//     saveSearch(s.label);
+
+//     if (s.type === "category") {
+//       navigate(`/category/${encodeURIComponent(s.label)}`);
+//     } 
+//     else if (s.type === "subcategory") {
+//       navigate(`/subcategory/${encodeURIComponent(s.label)}`);
+//     } 
+//     else if (s.type === "tag") {
+//       navigate(`/tag/${encodeURIComponent(s.label)}`);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Helmet>
+//         <title>Search Jeweller Products | Celestique Jewellery Store</title>
+//         <meta name="keywords" content="search jewellary, gold ring, diamond necklace, silver earrings"/>
+//         <meta name="robots" content="index, follow"/>
+//         <link
+//           rel="canonical"
+//           href="https://jewellery-shop-frontend-henna.vercel.app/search"
+//         />
+//       </Helmet>
+//       <div className="min-h-screen bg-[#FCFDF5] pb-16">
+//         <h1 className="text-2xl font-bold mb-4 hidden">
+//           Search Jewellery Collection
+//         </h1>
+//         <div className="sticky top-0 left-0 w-full bg-white shadow-md z-50 px-4 py-3">
+//           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 shadow-sm max-w-xl mx-auto">
+//             <IoSearch className="text-[22px] text-gray-500" />
+//             <input
+//               aria-label="Search jewellery products"
+//               name="search"
+//               ref={inputRef}
+//               value={query}
+//               onChange={(e) => setQuery(e.target.value)}
+//               placeholder="Search jewellery, gold, earrings, category, tag..."
+//               className="flex-1 bg-transparent outline-none text-gray-800 text-sm"
+//               onFocus={() => setShowSuggestions(true)}
+//               onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+//             />
+//           </div>
+
+//           {showSuggestions && (
+//             <div className="absolute h-[50vh] overflow-y-scroll top-[70px] left-1/2 transform -translate-x-1/2 w-full max-w-xl bg-white border border-gray-200 shadow-xl rounded-md overflow-hidden z-50">
+//               {suggestions.length > 0 ? (
+//                 suggestions.map((s, i) => (
+//                   <div
+//                     key={i}
+//                     onMouseDown={() => handleSelect(s)}
+//                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer"
+//                   >
+//                     {s.type === "product" ? (
+//                       <>
+//                         <img
+//                           src={s.item.images?.[0]}
+//                           alt={`${s.item.name} luxury jewellery product`}
+//                           className="w-12 h-12 object-cover rounded-md"
+//                         />
+//                         <div className="flex-1">
+//                           <p className="font-medium text-gray-800 text-sm">
+//                             {s.item.name}
+//                           </p>
+//                           <p className="text-xs text-gray-500">
+//                             {s.item.sub_category2 || s.item.sub_category}
+//                           </p>
+//                         </div>
+//                         <span className="text-sm font-semibold text-pink-600">
+//                           ₹{s.item.discount_price}
+//                         </span>
+//                       </>
+//                     ) : (
+//                       <div className="flex items-center gap-2 w-full">
+//                         <span className="text-gray-500 text-sm capitalize">
+//                           {s.type}:
+//                         </span>
+//                         <span className="font-semibold text-gray-800">
+//                           {s.label}
+//                         </span>
+//                       </div>
+//                     )}
+//                   </div>
+//                 ))
+//               ) : (
+//                 <p className="text-center py-3 text-gray-500 text-sm">No results found</p>
+//               )}
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="p-4">
+//           {recentSearches.length > 0 && (
+//             <div className="mb-4">
+//               <h2 className="text-sm font-semibold text-gray-600 mb-2">Recent Searches</h2>
+//               <div className="flex flex-wrap gap-2">
+//                 {recentSearches.map((term, i) => (
+//                   <button
+//                     key={i}
+//                     onClick={() =>
+//                       navigate(`/search-products/${encodeURIComponent(term)}?type=any`)
+//                     }
+//                     className="bg-gray-100 px-3 py-1 rounded-full text-xs text-gray-700 hover:bg-gray-200"
+//                   >
+//                     {term}
+//                   </button>
+//                 ))}
+//               </div>
+//             </div>
+//           )}
+
+//           <div>
+//             <h2 className="text-sm font-semibold text-gray-600 mb-2 flex items-center gap-1">
+//               <FaFire className="text-pink-600" /> Popular Products
+//             </h2>
+//             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+//               {popularProducts.map((item) => (
+//                 <div
+//                   key={item.id}
+//                   onClick={() => handleSelect({ type: "product", item })}
+//                   className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-2 cursor-pointer"
+//                 >
+//                   <img
+//                     src={item.images?.[0]}
+//                     alt={item.name}
+//                     className="w-full h-36 object-cover rounded-lg"
+//                   />
+//                   <p className="text-xs mt-1 font-semibold text-gray-800 truncate">
+//                     {item.name}
+//                   </p>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+
+//         <BottomNav />
+//       </div>
+//     </>
+//   );
+// };
+
+// export default SearchPage;
+
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaFire } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../AppComponents/BottomNav";
 import { AppContext } from "../contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 const SearchPage = () => {
-  const {jewelleryData} = useContext(AppContext)
+  const { jewelleryData } = useContext(AppContext);
+
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -23,7 +267,7 @@ const SearchPage = () => {
 
     const saved = JSON.parse(localStorage.getItem("recentSearches")) || [];
     setRecentSearches(saved);
-  }, []);
+  }, [jewelleryData]);
 
   useEffect(() => {
     if (query.trim() === "") {
@@ -33,15 +277,10 @@ const SearchPage = () => {
     }
 
     const q = query.toLowerCase();
-    const allCategories = [
-      ...new Set(jewelleryData.map((i) => i.category)),
-    ];
-    const allSubCategories = [
-      ...new Set(jewelleryData.map((i) => i.sub_category)),
-    ];
-    const allTags = [
-      ...new Set(jewelleryData.flatMap((i) => i.tags || [])),
-    ];
+
+    const allCategories = [...new Set(jewelleryData.map((i) => i.category))];
+    const allSubCategories = [...new Set(jewelleryData.map((i) => i.sub_category))];
+    const allTags = [...new Set(jewelleryData.flatMap((i) => i.tags || []))];
 
     const catMatches = allCategories
       .filter((c) => c.toLowerCase().includes(q))
@@ -65,7 +304,7 @@ const SearchPage = () => {
 
     setSuggestions([...catMatches, ...subMatches, ...tagMatches, ...productMatches]);
     setShowSuggestions(true);
-  }, [query]);
+  }, [query, jewelleryData]);
 
   const saveSearch = (term) => {
     const updated = [term, ...recentSearches.filter((t) => t !== term)].slice(0, 5);
@@ -73,128 +312,123 @@ const SearchPage = () => {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
   };
 
+  // ✅ SEO-FRIENDLY NAVIGATION (FIXED)
   const handleSelect = (s) => {
     setShowSuggestions(false);
+
     if (s.type === "product") {
-      const t = s.item.sub_category2 || s.item.sub_category || s.item.category;
       saveSearch(s.item.name);
-      navigate(`/search-products/${encodeURIComponent(t)}?type=product`);
-    } else {
-      saveSearch(s.label);
-      navigate(`/search-products/${encodeURIComponent(s.label)}?type=${s.type}`);
+      navigate(`/product-view/${s.item.name}/${s.item.id}`);
+      return;
+    }
+
+    saveSearch(s.label);
+
+    if (s.type === "category") {
+      navigate(`/category/${encodeURIComponent(s.label)}`);
+    } 
+    else if (s.type === "subcategory") {
+      navigate(`/subcategory/${encodeURIComponent(s.label)}`);
+    } 
+    else if (s.type === "tag") {
+      navigate(`/tag/${encodeURIComponent(s.label)}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFDF5] pb-16">
-      <div className="sticky top-0 left-0 w-full bg-white shadow-md z-50 px-4 py-3">
-        <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 shadow-sm max-w-xl mx-auto">
-          <IoSearch className="text-[22px] text-gray-500" />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search jewellery, gold, earrings, category, tag..."
-            className="flex-1 bg-transparent outline-none text-gray-800 text-sm"
-            onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-          />
-        </div>
+    <>
+      <Helmet>
+        <title>Search Jewellery | Gold & Diamond Jewellery Online</title>
+        <meta
+          name="description"
+          content="Search premium gold, diamond and silver jewellery collections online."
+        />
+        <meta name="robots" content="index, follow" />
+        <link
+          rel="canonical"
+          href="https://jewellery-shop-frontend-henna.vercel.app/search"
+        />
+      </Helmet>
 
-        {showSuggestions && (
-          <div className="absolute h-[50vh] overflow-y-scroll top-[70px] left-1/2 transform -translate-x-1/2 w-full max-w-xl bg-white border border-gray-200 shadow-xl rounded-md overflow-hidden z-50">
-            {suggestions.length > 0 ? (
-              suggestions.map((s, i) => (
+      <div className="min-h-screen bg-[#FCFDF5] pb-16">
+
+        {/* SEARCH BAR */}
+        <div className="sticky top-0 w-full bg-white shadow-md z-50 px-4 py-3">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 max-w-xl mx-auto">
+            <IoSearch className="text-[22px] text-gray-500" />
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search jewellery..."
+              className="flex-1 bg-transparent outline-none text-sm"
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+            />
+          </div>
+
+          {/* SUGGESTIONS */}
+          {showSuggestions && (
+            <div className="absolute top-[70px] left-1/2 -translate-x-1/2 w-full max-w-xl bg-white shadow-xl rounded-md z-50 max-h-[50vh] overflow-y-auto">
+              {suggestions.map((s, i) => (
                 <div
                   key={i}
                   onMouseDown={() => handleSelect(s)}
-                  className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 cursor-pointer"
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
                 >
                   {s.type === "product" ? (
                     <>
                       <img
                         src={s.item.images?.[0]}
+                        className="w-10 h-10 rounded object-cover"
                         alt={s.item.name}
-                        className="w-12 h-12 object-cover rounded-md"
                       />
                       <div className="flex-1">
-                        <p className="font-medium text-gray-800 text-sm">
-                          {s.item.name}
-                        </p>
+                        <p className="text-sm font-medium">{s.item.name}</p>
                         <p className="text-xs text-gray-500">
-                          {s.item.sub_category2 || s.item.sub_category}
+                          {s.item.sub_category}
                         </p>
                       </div>
-                      <span className="text-sm font-semibold text-pink-600">
-                        ₹{s.item.discount_price}
-                      </span>
                     </>
                   ) : (
-                    <div className="flex items-center gap-2 w-full">
-                      <span className="text-gray-500 text-sm capitalize">
-                        {s.type}:
-                      </span>
-                      <span className="font-semibold text-gray-800">
-                        {s.label}
-                      </span>
-                    </div>
+                    <p className="text-sm">
+                      <span className="text-gray-500">{s.type}:</span>{" "}
+                      <b>{s.label}</b>
+                    </p>
                   )}
                 </div>
-              ))
-            ) : (
-              <p className="text-center py-3 text-gray-500 text-sm">No results found</p>
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="p-4">
-        {recentSearches.length > 0 && (
-          <div className="mb-4">
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">Recent Searches</h2>
-            <div className="flex flex-wrap gap-2">
-              {recentSearches.map((term, i) => (
-                <button
-                  key={i}
-                  onClick={() =>
-                    navigate(`/search-products/${encodeURIComponent(term)}?type=any`)
-                  }
-                  className="bg-gray-100 px-3 py-1 rounded-full text-xs text-gray-700 hover:bg-gray-200"
-                >
-                  {term}
-                </button>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        <div>
-          <h2 className="text-sm font-semibold text-gray-600 mb-2 flex items-center gap-1">
-            <FaFire className="text-pink-600" /> Popular Products
+        {/* POPULAR */}
+        <div className="p-4">
+          <h2 className="text-sm font-semibold flex items-center gap-1 mb-2">
+            <FaFire className="text-pink-600" /> Popular
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-6">
             {popularProducts.map((item) => (
               <div
                 key={item.id}
-                onClick={() => handleSelect({ type: "product", item })}
-                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-2 cursor-pointer"
+                onClick={() => navigate(`/product-view/${item.name}/${item.id}`)}
+                className="bg-white p-2 rounded shadow cursor-pointer"
               >
                 <img
                   src={item.images?.[0]}
+                  className="h-32 w-full object-cover rounded"
                   alt={item.name}
-                  className="w-full h-36 object-cover rounded-lg"
                 />
-                <p className="text-xs mt-1 font-semibold text-gray-800 truncate">
-                  {item.name}
-                </p>
+                <p className="text-xs font-semibold mt-1">{item.name}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
 
-      <BottomNav />
-    </div>
+        <BottomNav />
+      </div>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import ProductCard from "../components/ProductCard";
 import BottomNav from "../AppComponents/BottomNav";
 import { AppContext } from "../contexts/AppContext";
 import { FiFilter } from "react-icons/fi";
+import { Helmet } from "react-helmet-async";
 
 const AllProduct = () => {
   const { jewelleryData } = useContext(AppContext);
@@ -58,32 +59,79 @@ const AllProduct = () => {
     return ["All", ...new Set(allSubs)];
   }, [jewelleryData]);
 
-  const filteredProducts = jewelleryData.filter((item) => {
-    const categoryMatch =
-      filters.category === "All" ||
-      item.category.toLowerCase() === filters.category.toLowerCase();
+  // const filteredProducts = jewelleryData.filter((item) => {
+  //   console.log(item)
+  //   const categoryMatch =
+  //     filters.category === "All" ||
+  //     item.category.toLowerCase() === filters.category.toLowerCase();
 
-    const subCategoryMatch =
-      filters.subCategory === "All" ||
-      item.sub_category.toLowerCase() === filters.subCategory.toLowerCase();
+  //   const subCategoryMatch =
+  //     filters.subCategory === "All" ||
+  //     item.sub_category.toLowerCase() === filters.subCategory.toLowerCase();
 
-    const colorMatch =
-      filters.color === "All" ||
-      item.color?.toLowerCase() === filters.color.toLowerCase();
+  //   const colorMatch =
+  //     filters.color === "All" ||
+  //     (item.color && 
+  //       item.color.some((c) => c.toLowerCase() === filters.color.toLowerCase())
+  //     )
+  //   const tagMatch =
+  //     filters.tag === "All" ||
+  //     (item.tags &&
+  //       item.tags.some((t) => t.toLowerCase() === filters.tag.toLowerCase()));
 
-    const tagMatch =
-      filters.tag === "All" ||
-      (item.tags &&
-        item.tags.some((t) => t.toLowerCase() === filters.tag.toLowerCase()));
+  //   const offerMatch =
+  //     filters.offer === "All" ||
+  //     (item.offer && item.offer.toLowerCase() === filters.offer.toLowerCase());
 
-    const offerMatch =
-      filters.offer === "All" ||
-      (item.offer && item.offer.toLowerCase() === filters.offer.toLowerCase());
+  //   return (
+  //     categoryMatch && subCategoryMatch && colorMatch && tagMatch && offerMatch
+  //   );
+  // });
 
-    return (
-      categoryMatch && subCategoryMatch && colorMatch && tagMatch && offerMatch
-    );
-  });
+  const filteredProducts = useMemo(() => {
+    return jewelleryData.filter((item) => {
+      const categoryMatch =
+        filters.category === "All" ||
+        item.category?.toLowerCase() ===
+          filters.category.toLowerCase();
+
+      const subCategoryMatch =
+        filters.subCategory === "All" ||
+        item.sub_category?.toLowerCase() ===
+          filters.subCategory.toLowerCase();
+
+      const colorMatch =
+        filters.color === "All" ||
+        (item.color &&
+          item.color.some(
+            (c) =>
+              c.toLowerCase() ===
+              filters.color.toLowerCase()
+          ));
+
+      const tagMatch =
+        filters.tag === "All" ||
+        (item.tags &&
+          item.tags.some(
+            (t) =>
+              t.toLowerCase() ===
+              filters.tag.toLowerCase()
+          ));
+
+      const offerMatch =
+        filters.offer === "All" ||
+        item.offer?.toLowerCase() ===
+          filters.offer.toLowerCase();
+
+      return (
+        categoryMatch &&
+        subCategoryMatch &&
+        colorMatch &&
+        tagMatch &&
+        offerMatch
+      );
+    });
+  }, [filters, jewelleryData]);
 
   const handleFilterChange = (type, value) => {
     setFilters((prev) => ({ ...prev, [type]: value }));
@@ -93,10 +141,11 @@ const AllProduct = () => {
     <div className="p-4 space-y-5">
       {/* Category */}
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Category</h3>
+        <h2 className="font-semibold text-gray-800 mb-2">Category</h2>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
+              aria-label={`Filter by ${cat}`}
               key={cat}
               onClick={() => handleFilterChange("category", cat)}
               className={`text-sm px-3 py-1 rounded-full border ${
@@ -113,7 +162,7 @@ const AllProduct = () => {
 
       {/* Subcategory */}
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Subcategory</h3>
+        <h2 className="font-semibold text-gray-800 mb-2">Subcategory</h2>
         <select
           value={filters.subCategory}
           onChange={(e) => handleFilterChange("subCategory", e.target.value)}
@@ -129,10 +178,11 @@ const AllProduct = () => {
 
       {/* Color */}
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Color</h3>
+        <h2 className="font-semibold text-gray-800 mb-2">Color</h2>
         <div className="flex flex-wrap gap-2">
           {colorOptions.map((clr) => (
             <button
+              aria-label={`Filter by ${clr}`}
               key={clr}
               onClick={() => handleFilterChange("color", clr)}
               className={`text-sm px-3 py-1 rounded-full border ${
@@ -149,11 +199,12 @@ const AllProduct = () => {
 
       {/* Tags */}
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Tags</h3>
+        <h2 className="font-semibold text-gray-800 mb-2">Tags</h2>
         <div className="flex flex-wrap gap-2">
           {tagOptions.map((tag) => (
             <button
               key={tag}
+              aria-label={`Filter by ${tag}`}
               onClick={() => handleFilterChange("tag", tag)}
               className={`text-sm px-3 py-1 rounded-full border ${
                 filters.tag === tag
@@ -169,11 +220,12 @@ const AllProduct = () => {
 
       {/* Offers */}
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Offers</h3>
+        <h2 className="font-semibold text-gray-800 mb-2">Offers</h2>
         <div className="flex flex-wrap gap-2">
           {offers.map((off) => (
             <button
               key={off}
+              aria-label={`Filter by ${off}`}
               onClick={() => handleFilterChange("offer", off)}
               className={`text-sm px-3 py-1 rounded-full border ${
                 filters.offer === off
@@ -191,6 +243,36 @@ const AllProduct = () => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
+      
+      <Helmet>
+        <title>
+          All Jewellery Products | Gold, Silver & Diamond Collection
+        </title>
+        <meta name="description" content="Explore handcrafted gold, silver and diamond jewellery including rings, necklaces, earrings, bracelets and luxury collections."/>
+        <meta
+          name="keywords"
+          content="Celestique gold jewellery, diamond rings, necklaces, bracelets, earrings, luxury jewellery"
+        />
+        <meta
+          name="robots"
+          content="index, follow"
+        />
+        <link
+          rel="canonical"
+          href="https://jewellery-shop-frontend-henna.vercel.app/all-product"
+        />
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Luxury Jewellery Collection",
+            "description": "Gold, silver and diamond jewellery collection"
+          }
+          `}
+        </script>
+      </Helmet>
+      
       <Navbar2 name={"All Jewellery"} />
 
       <div className="md:hidden flex justify-between items-center px-4 pt-16">
@@ -224,6 +306,23 @@ const AllProduct = () => {
         </aside>
 
         <main className="flex-1 overflow-y-auto px-4 scroll-hide">
+          
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            Explore Luxury Jewellery Collection
+          </h1>
+          <p className="text-gray-600 mb-4 leading-relaxed">
+            Discover handcrafted gold, silver and
+            diamond jewellery collections including
+            rings, necklaces, earrings, bangles,
+            bracelets and premium fashion accessories.
+          </p>
+
+          {/* Product Count */}
+          <p className="text-sm text-gray-500 mb-6">
+            {filteredProducts.length} jewellery
+            products available
+          </p>
+          
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredProducts.map((item) => (
@@ -231,9 +330,17 @@ const AllProduct = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500 mt-20 text-lg">
-              No products found for selected filters.
-            </p>
+            <div className="text-center mt-20">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                No Products Found
+              </h2>
+
+              <p className="text-gray-500">
+                Try exploring rings, necklaces,
+                earrings or bracelets from our
+                jewellery collection.
+              </p>
+            </div>
           )}
         </main>
       </div>
