@@ -1,76 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!-- Home Page -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/
-    </loc>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- All Products -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/all-product
-    </loc>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/all-product</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Search -->
+  <!-- Search Page -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/search
-    </loc>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/search</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Example Categories -->
+  <!-- Wishlist -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/show-all-category/rings
-    </loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/wishlist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
+  <!-- Cart -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/show-all-category/necklace
-    </loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/cart</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
+  <!-- Profile -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/show-all-category/earrings
-    </loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/profile</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 
-  <!-- Example Product Pages -->
+  <!-- Category Pages (SEO IMPORTANT) -->
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/product-view/1
-    </loc>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/category/rings</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>
-      https://jewellery-shop-frontend-henna.vercel.app/product-view/2
-    </loc>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/category/necklace</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/category/earrings</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/category/bracelets</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Subcategory Examples -->
+  <url>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/subcategory/gold</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jewellery-shop-frontend-henna.vercel.app/subcategory/silver</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
