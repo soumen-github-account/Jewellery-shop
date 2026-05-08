@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jewellery-shop-frontend-henna.vercel.app/sitemap.xml
