@@ -31,7 +31,7 @@ router.post("/signup", signup);
 router.post("/login", login);
 
 router.get("/login/failure", loginFailure);
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 router.get("/user", getUser);
 router.put("/update-user", updateUser);
 

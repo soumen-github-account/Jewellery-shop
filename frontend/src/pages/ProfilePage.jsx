@@ -85,14 +85,36 @@ const ProfilePage = () => {
   //   toast.success("logout successfull")
   // };
 
-  const handleLogout = async () => {
-    await axios.get(`${backendUrl}/auth/logout`, { withCredentials: true });
-    setUser(null);
-    setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+  // const handleLogout = async () => {
+  //   await axios.get(`${backendUrl}/auth/logout`, { withCredentials: true });
+  //   setUser(null);
+  //   setUser(null);
+  //   localStorage.removeItem("user");
+  //   localStorage.removeItem("token");
 
-    toast.success("Logout successful");
+  //   toast.success("Logout successful");
+  // };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${backendUrl}/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+
+      setUser(null);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+
+      toast.success("Logout successful");
+
+      window.location.href = "/login";
+    } catch (err) {
+      console.log(err);
+      toast.error("Logout failed");
+    }
   };
 
 
