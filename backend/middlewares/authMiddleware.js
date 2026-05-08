@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 export const getUserIdFromToken = (req, res, next) => {
-  // Priority: Passport session user (Google) -> JWT token
   if (req.user) {
     req.userId = req.user._id;
     return next();

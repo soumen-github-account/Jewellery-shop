@@ -18,12 +18,12 @@ const App = () => {
   
   useEffect(() => {
     const preventLongPress = (e) => e.preventDefault();
-    document.addEventListener('contextmenu', preventLongPress);
+    // document.addEventListener('contextmenu', preventLongPress);
     document.addEventListener('selectstart', preventLongPress);
     document.addEventListener('copy', preventLongPress);
 
     return () => {
-      document.removeEventListener('contextmenu', preventLongPress);
+      // document.removeEventListener('contextmenu', preventLongPress);
       document.removeEventListener('selectstart', preventLongPress);
       document.removeEventListener('copy', preventLongPress);
     };
