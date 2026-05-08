@@ -18,12 +18,18 @@ export const signup = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    res.cookie("token", token, {
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",   
-      sameSite: "None",   
-      maxAge: 24 * 60 * 60 * 1000, 
-    });
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     res.status(201).json({ success: true, user });
   } catch (err) {
@@ -49,14 +55,18 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    res.cookie("token", token, {
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
       maxAge: 24 * 60 * 60 * 1000,
-    });
+      path: "/",
+    };
 
-    res.status(200).json({ success: true, user });
+    res.cookie("token", token, cookieOptions);
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Login failed" });
@@ -72,12 +82,18 @@ export const googleCallback = (req, res) => {
   if (!req.user) return res.redirect(`${process.env.CLIENT_URL}/login`);
 
   const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
+  const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    };
+
+    res.cookie("token", token, cookieOptions);
 
   res.redirect(process.env.CLIENT_URL);
 };
@@ -98,39 +114,19 @@ export const loginFailure = (req, res) => {
 //   });
 // };
 export const logoutUser = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Logout failed",
-      });
-    }
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite:
+      process.env.NODE_ENV === "production"
+        ? "none"
+        : "lax",
+    path: "/",
+  });
 
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "Session destroy failed",
-        });
-      }
-
-      res.clearCookie("connect.sid", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-      });
-
-      res.clearCookie("token", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-      });
-
-      return res.status(200).json({
-        success: true,
-        message: "Logged out successfully",
-      });
-    });
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
   });
 };
 
