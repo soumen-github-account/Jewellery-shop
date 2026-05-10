@@ -10,7 +10,16 @@ import { connectDb } from "./config/mongodb.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js"
+import pg from "pg";
 
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -68,6 +77,88 @@ connectDb();
 
 app.get("/", (req, res) => {
   res.send("API is working");
+});
+
+// ================= SITEMAP =================
+
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+
+    // Fetch products from NeonDB
+    const result = await pool.query(`
+      SELECT id, name
+      FROM products
+    `);
+
+    const products = result.rows;
+
+    // Static URLs
+    const staticUrls = `
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+      </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/all-product</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+      </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/rings</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/necklaces</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+    `;
+
+    // Dynamic Product URLs
+    const productUrls = products
+      .map((product) => {
+
+        const formattedName = product.name
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w-]+/g, "");
+
+        return `
+          <url>
+            <loc>
+              https://jewellery-shop-frontend-henna.vercel.app/product-view/${formattedName}/${product.id}
+            </loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.95</priority>
+          </url>
+        `;
+      })
+      .join("");
+
+    // Final Sitemap XML
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+      ${staticUrls}
+
+      ${productUrls}
+
+    </urlset>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(sitemap);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
 });
 
 app.use("/auth", authRoutes);
