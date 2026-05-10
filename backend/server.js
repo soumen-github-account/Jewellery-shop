@@ -117,6 +117,34 @@ app.get("/sitemap.xml", async (req, res) => {
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
       </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/earrings</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/bracelets</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/bangles</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/anklets</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
+      <url>
+        <loc>https://jewellery-shop-frontend-henna.vercel.app/category/pendants</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+      </url>
     `;
 
     // Dynamic Product URLs
